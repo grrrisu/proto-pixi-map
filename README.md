@@ -7,9 +7,9 @@ Preparation
 npm install -g coffee-script
 ```
 
-Compile a directory tree of .coffee files in src into a parallel tree of .js files in javascripts:
+Compile a directory tree of .coffee files in lib into a parallel tree of .js files in javascripts:
 ```
-coffee --compile --output javascripts/ src/
+coffee --compile --output javascripts/ lib/
 ```
 
 Run
