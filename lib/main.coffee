@@ -10,6 +10,7 @@ class Game.Main
       {view: @element}
     );
     @loadAssets();
+    @loadInitialMapData();
 
   loadAssets: () =>
     # preload also the background images, when Pixi loads Texture.fromImage
@@ -21,6 +22,9 @@ class Game.Main
     loader = new PIXI.AssetLoader(assetsToLoad);
     loader.onComplete = @assetsLoaded;
     loader.load();
+
+  @loadInitialMapData: () =>
+
 
   assetsLoaded: () =>
     @create();
