@@ -10,8 +10,6 @@ Preparation
 
 ```
 npm install -g coffee-script
-npm install -g jasmine
-jasmine init
 ```
 
 Compile a directory tree of .coffee files in lib into a parallel tree of .js files in javascripts:
@@ -29,8 +27,5 @@ ruby -r webrick -e "s = WEBrick::HTTPServer.new(:Port => 8000, :DocumentRoot => 
 Tests
 -----
 
-run with
-```
-jasmine
-```
+open ```spec/SpecRunner.html```
 
