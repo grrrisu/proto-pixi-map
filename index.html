@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Proto Pixi Map</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        color: #ffffff;
+        background-color: #000000;
+      }
+      canvas {
+        background-color: #222222;
+      }
+    </style>
+    <script src="javascripts/pixi.dev.js"></script>
+    <script src="javascripts/namespace.js"></script>
+    <script src="javascripts/main.js"></script>
+  </head>
+<body onload="init()">
+  <h1>Map</h1>
+  <div align="center">
+      <canvas id="map" width="500" height="500"></canvas>
+    </div>
+  <script>
+    function init(){
+      main = new Game.Main('map');
+    }
+  </script>
+  </body>
+</html>
