@@ -8,6 +8,9 @@ class Game.Main
       @element.height,
       {view: @element}
     );
+
+    @apiCaller = new Game.ApiCaller();
+    @map       = new Game.Map(@stage);
     @loadAssets();
     @loadInitialMapData();
 
@@ -22,22 +25,35 @@ class Game.Main
     loader.onComplete = @assetsLoaded;
     loader.load();
 
-  @loadInitialMapData: () =>
+  loadInitialMapData: () =>
+    @apiCaller.get('/spec/fixtures/map.json', @dataLoaded);
 
 
   assetsLoaded: () =>
-    @create();
+    if @dataLoaded == true
+      @create();
+    else
+      @assetsLoaded = true
+      console.log("assets loaded first");
     requestAnimFrame(@update.bind(this));
 
-  update: () ->
-    @renderer.render(@stage);
+  dataLoaded: (data) =>
+    data = JSON.parse(data);
+    @map.setData(data);
+    if @assetsLoaded == true
+      @create();
+    else
+      @dataLoaded = true
+      console.log("data loaded first");
 
+  update: () ->
+    #@map.layer.position.x += 2;
+    @renderer.render(@stage);
     # called 60 times per sec / 60 FPS (FramePerSeconds)
     requestAnimFrame(@update.bind(this));
 
   create: () =>
     console.log('create main');
-    @map = new Game.Map(@stage);
     @map.create
       width: @element.width
       height: @element.height
