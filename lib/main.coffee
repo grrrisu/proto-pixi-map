@@ -2,7 +2,6 @@ class Game.Main
 
   constructor: (element_id) ->
     @element   = document.getElementById(element_id);
-    console.log(@element);
     @stage     = new PIXI.Stage(0x66FF99);
     @renderer  = PIXI.autoDetectRenderer(
       @element.width,
@@ -37,4 +36,11 @@ class Game.Main
     requestAnimFrame(@update.bind(this));
 
   create: () =>
-    console.log('create')
+    console.log('create main');
+    @map = new Game.Map(@stage);
+    @map.create
+      width: @element.width
+      height: @element.height
+      fieldSize: 55
+      ax: 0
+      ay: 0
