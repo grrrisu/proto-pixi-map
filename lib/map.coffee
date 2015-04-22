@@ -18,13 +18,15 @@ class Game.Map
   createFields: () =>
     for y in [0..@fieldHeight()]
       for x in [0..@fieldWidth()]
-        fieldData = @data['view'][y][x];
-        image = @vegetationTexture(fieldData['vegetation']['type']);
-        texture = PIXI.Texture.fromImage("images/#{image}");
-        vegetation = new PIXI.Sprite(texture);
-        vegetation.position.x = x * @fieldSize;
-        vegetation.position.y = y * @fieldSize;
-        @layer.addChild(vegetation);
+        if @data['view'][y]?
+          fieldData = @data['view'][y][x];
+          if fieldData?
+            image = @vegetationTexture(fieldData['vegetation']['type']);
+            texture = PIXI.Texture.fromImage("images/#{image}");
+            vegetation = new PIXI.Sprite(texture);
+            vegetation.position.x = x * @fieldSize;
+            vegetation.position.y = y * @fieldSize;
+            @layer.addChild(vegetation);
 
   vegetationTexture: (vegetationType) =>
     switch vegetationType
