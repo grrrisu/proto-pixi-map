@@ -23,6 +23,8 @@ class Game.Map
           if fieldData?
             type = fieldData['vegetation']['type']
             vegetation = Game.main.assets.createVegetationSprite(type)
+            vegetation.position.x = x * (@fieldSize + 1);
+            vegetation.position.y = y * (@fieldSize + 1);
             @layer.addChild(vegetation);
 
   fieldWidth: () ->

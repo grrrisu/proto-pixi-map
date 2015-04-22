@@ -3,7 +3,7 @@ class Game.Main
   constructor: (element_id) ->
     @element   = document.getElementById(element_id);
     console.log(window.devicePixelRatio);
-    @stage     = new PIXI.Stage(0x66FF99);
+    @stage     = new PIXI.Stage(0x454545);
     @renderer  = PIXI.autoDetectRenderer(
       @element.width,
       @element.height,
@@ -13,30 +13,14 @@ class Game.Main
     #document.body.appendChild(@renderer.view);
 
     @apiCaller = new Game.ApiCaller();
+    @assets    = new Game.Assets();
     @map       = new Game.Map(@stage);
-    @loadAssets();
+
+    @assets.load(@assetsLoaded)
     @loadInitialMapData();
-
-  loadAssets: () =>
-    # preload also the background images, when Pixi loads Texture.fromImage
-    # it first looks in the cache before loading from the file system
-    assetsToLoad = [
-      "images/0_desert@2x.png",
-      "images/1_grass@2x.png",
-      "images/2_grass@2x.png",
-      "images/3_grass@2x.png",
-      "images/5_grass@2x.png",
-      "images/8_forest@2x.png",
-      "images/13_forest@2x.png"
-    ];
-
-    loader = new PIXI.AssetLoader(assetsToLoad);
-    loader.onComplete = @assetsLoaded;
-    loader.load();
 
   loadInitialMapData: () =>
     @apiCaller.get('/spec/fixtures/map.json', @dataLoaded);
-
 
   assetsLoaded: () =>
     if @dataLoaded == true
