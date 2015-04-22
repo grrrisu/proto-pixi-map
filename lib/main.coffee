@@ -2,13 +2,13 @@ class Game.Main
 
   constructor: (element_id) ->
     @element   = document.getElementById(element_id);
-    console.log(window.devicePixelRatio);
+    @resolution = window.devicePixelRatio;
     @stage     = new PIXI.Stage(0x454545);
     @renderer  = PIXI.autoDetectRenderer(
       @element.width,
       @element.height,
       view: @element,
-      resolution: window.devicePixelRatio
+      resolution: @resolution
     );
     #document.body.appendChild(@renderer.view);
 
@@ -48,8 +48,8 @@ class Game.Main
   create: () =>
     console.log('create main');
     @map.create
-      width: @element.width
-      height: @element.height
+      width: @element.width / @resolution
+      height: @element.height / @resolution
       fieldSize: 55
       ax: 0
       ay: 0
