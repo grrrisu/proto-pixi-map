@@ -21,23 +21,9 @@ class Game.Map
         if @data['view'][y]?
           fieldData = @data['view'][y][x];
           if fieldData?
-            image = @vegetationTexture(fieldData['vegetation']['type']);
-            texture = PIXI.Texture.fromImage("images/#{image}");
-            vegetation = new PIXI.Sprite(texture);
-            vegetation.position.x = x * @fieldSize;
-            vegetation.position.y = y * @fieldSize;
+            type = fieldData['vegetation']['type']
+            vegetation = Game.main.assets.createVegetationSprite(type)
             @layer.addChild(vegetation);
-
-  vegetationTexture: (vegetationType) =>
-    switch vegetationType
-      when 0 then "0_desert@2x.png"
-      when 1 then "1_grass@2x.png"
-      when 2 then "2_grass@2x.png"
-      when 3 then "3_grass@2x.png"
-      when 5 then "5_grass@2x.png"
-      when 8 then "8_forest@2x.png"
-      when 13 then "13_forest@2x.png"
-      else console.log("ERROR: unkown type: #{vegetationType}")
 
   fieldWidth: () ->
     Math.ceil(@width / @fieldSize) + 1
