@@ -2,6 +2,7 @@ class Game.Map
 
   constructor: (stage) ->
     @layer = new PIXI.DisplayObjectContainer();
+    @data  = new Game.MapData();
     stage.addChild(@layer);
 
   create: (options) =>
@@ -13,19 +14,16 @@ class Game.Map
     @createFields();
 
   setData: (data) =>
-    @data = data;
+    @data.addDataSet(data);
 
   createFields: () =>
     for y in [0..@fieldHeight()]
       for x in [0..@fieldWidth()]
-        if @data['view'][y]?
-          fieldData = @data['view'][y][x];
-          if fieldData?
-            type = fieldData['vegetation']['type']
-            vegetation = Game.main.assets.createVegetationSprite(type)
-            vegetation.position.x = x * (@fieldSize + 1);
-            vegetation.position.y = y * (@fieldSize + 1);
-            @layer.addChild(vegetation);
+        vegetation = @data.getVegetation(@ax + x,@ay + y);
+        sprite = Game.main.assets.createVegetationSprite(vegetation.type)
+        sprite.position.x = x * (@fieldSize + 1);
+        sprite.position.y = y * (@fieldSize + 1);
+        @layer.addChild(sprite);
 
   fieldWidth: () ->
     Math.ceil(@width / @fieldSize) + 1

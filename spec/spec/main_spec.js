@@ -5,6 +5,7 @@ describe("Main", function() {
     map.setAttribute('id', 'map');
     map.setAttribute('width', '600')
     map.setAttribute('height', '300')
+    map.setAttribute('style', 'width: 600px; height: 300px;')
     document.body.appendChild(map);
 
     main = new Game.Main('map');
