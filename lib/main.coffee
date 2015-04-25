@@ -51,5 +51,5 @@ class Game.Main
       width: @element.width / @resolution
       height: @element.height / @resolution
       fieldSize: 55
-      ax: 25
-      ay: 50
+      ax: 25 * 55
+      ay: 50 * 55

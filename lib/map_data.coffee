@@ -16,6 +16,9 @@ class Game.MapData
   getVegetation: (rx, ry) =>
     return @_getField(rx, ry)['vegetation'];
 
+  mapMovedBy: (dx, dy) =>
+    console.log(dx, dy)
+
   # private
 
   _getField: (rx, ry) ->
