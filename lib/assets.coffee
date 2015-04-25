@@ -12,6 +12,8 @@ class Game.Assets
       "type_8": "/images/8_forest@2x.png",
       "type_13": "/images/13_forest@2x.png"
     }
+    images = Object.values(@vegetation);
+    @pool = new Game.SpritePool(images);
 
   load: (callback) =>
     assetsToLoad = Object.values(@vegetation);
@@ -19,11 +21,9 @@ class Game.Assets
     loader.onComplete = callback;
     loader.load();
 
-  createVegetationSprite: (type) =>
+  getVegetationSprite: (type) =>
     image = @vegetation["type_#{type}"];
     if image?
-      texture = PIXI.Texture.fromImage(image);
-      vegetation = new PIXI.Sprite(texture);
+      @pool.getSprite(image);
     else
-      console.log("ERROR: unkown type: #{type}")
-
+      console.log("ERROR: unkown type: #{type}");
