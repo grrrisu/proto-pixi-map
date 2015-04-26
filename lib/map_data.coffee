@@ -5,6 +5,16 @@ class Game.MapData
     if data?
       @addDataSet(data);
 
+  loadInitialMapData: (callback) =>
+    @dataLoaded = callback
+    Game.main.apiCaller.get('/spec/fixtures/init_map.json', @initLoaded);
+
+  initLoaded: (data) =>
+    Game.main.apiCaller.get '/spec/fixtures/map.json', (data) =>
+      data = JSON.parse(data);
+      @addDataSet(data);
+      @dataLoaded();
+
   addDataSet: (data) =>
     data['x2'] = data.x + data['view'][0].length - 1;
     data['y2'] = data.y + data['view'].length - 1;
