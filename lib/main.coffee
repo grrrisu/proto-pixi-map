@@ -7,7 +7,7 @@ class Game.Main
 
   run: () =>
     @assets.load(@assetsLoaded);
-    @map.data.loadInitialMapData(@dataLoaded);
+    @stage.map.data.loadInitialMapData(@dataLoaded);
 
   assetsLoaded: () =>
     if @dataLoaded == true
