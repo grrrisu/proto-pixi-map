@@ -46,7 +46,8 @@ describe("MapData", function() {
       ]
     };
 
-    mapData = new Game.MapData(data);
+    mapData = new Game.MapData();
+    mapData.addDataSet(data);
   });
 
   it("should set dimensions", function() {
