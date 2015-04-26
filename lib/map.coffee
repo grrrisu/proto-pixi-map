@@ -23,9 +23,6 @@ class Game.Map
     @rx = Math.floor(@ax / @fieldSize)
     @ry = Math.floor(@ay / @fieldSize)
 
-  setData: (data) =>
-    @data.addDataSet(data);
-
   createFields: () =>
     for y in [0..@fieldHeight()]
       for x in [0..@fieldWidth()]

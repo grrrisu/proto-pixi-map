@@ -5,11 +5,9 @@ class Game.Main
     @apiCaller = new Game.ApiCaller();
     @assets    = new Game.Assets();
 
-    @assets.load(@assetsLoaded)
-    @loadInitialMapData();
-
-  loadInitialMapData: () =>
-    @apiCaller.get('/spec/fixtures/map.json', @dataLoaded);
+  run: () =>
+    @assets.load(@assetsLoaded);
+    @map.data.loadInitialMapData(@dataLoaded);
 
   assetsLoaded: () =>
     if @dataLoaded == true
@@ -20,8 +18,6 @@ class Game.Main
     requestAnimFrame(@stage.update);
 
   dataLoaded: (data) =>
-    data = JSON.parse(data);
-    @stage.map.setData(data);
     if @assetsLoaded == true
       @create();
     else
