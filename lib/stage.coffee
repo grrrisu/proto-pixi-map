@@ -10,7 +10,10 @@ class Game.Stage
       view: @element,
       resolution: window.devicePixelRatio
     );
-    @map       = new Game.Map(@stage);
+    @map       = new Game.Map @stage,
+                  width: @element.width / @resolution
+                  height: @element.height / @resolution
+                  fieldSize: 55
 
   update: () =>
     @renderer.render(@stage);
@@ -18,10 +21,4 @@ class Game.Stage
     requestAnimFrame(@update);
 
   create: () =>
-    @map.create
-      width: @element.width / @resolution
-      height: @element.height / @resolution
-      fieldSize: 55
-      ax: 25 * 55
-      ay: 50 * 55
-
+    @map.create()

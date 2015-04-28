@@ -1,13 +1,13 @@
 class Game.Main
 
   constructor: (element_id) ->
-    @stage     = new Game.Stage(element_id);
-    @apiCaller = new Game.ApiCaller();
     @assets    = new Game.Assets();
+    @apiCaller = new Game.ApiCaller();
+    @stage     = new Game.Stage(element_id);
 
-  run: () =>
+  init: () =>
     @assets.load(@assetsLoaded);
-    @stage.map.data.loadInitialMapData(@dataLoaded);
+    @stage.map.init(@dataLoaded);
 
   assetsLoaded: () =>
     if @dataLoaded == true
@@ -17,7 +17,7 @@ class Game.Main
       console.log("assets loaded first");
     requestAnimFrame(@stage.update);
 
-  dataLoaded: (data) =>
+  dataLoaded: () =>
     if @assetsLoaded == true
       @create();
     else
@@ -25,5 +25,5 @@ class Game.Main
       console.log("data loaded first");
 
   create: () =>
-    console.log('create main');
     @stage.create();
+

@@ -1,19 +1,13 @@
 class Game.MapData
 
-  constructor: (data) ->
+  constructor: () ->
     @dataSets = [];
-    if data?
-      @addDataSet(data);
 
-  loadInitialMapData: (callback) =>
-    @dataLoaded = callback
-    Game.main.apiCaller.get('/spec/fixtures/init_map.json', @initLoaded);
-
-  initLoaded: (data) =>
+  setupData: (callback) =>
     Game.main.apiCaller.get '/spec/fixtures/map.json', (data) =>
       data = JSON.parse(data);
       @addDataSet(data);
-      @dataLoaded();
+      callback();
 
   addDataSet: (data) =>
     data['x2'] = data.x + data['view'][0].length - 1;
@@ -26,12 +20,15 @@ class Game.MapData
   getVegetation: (rx, ry) =>
     return @_getField(rx, ry)['vegetation'];
 
-  mapMovedBy: (dx, dy) =>
-    console.log(dx, dy)
+  mapMovedTo: (rx, ry) =>
+    @rx = rx;
+    @ry = ry;
 
   # private
 
   _getField: (rx, ry) ->
+    rx = @rx + rx
+    ry = @ry + ry
     dataSet = @_getDataSet(rx, ry);
     if dataSet?
       return dataSet['view'][ry - dataSet.y][rx - dataSet.x];
