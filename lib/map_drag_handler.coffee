@@ -25,10 +25,8 @@ class Game.MapDragHandler
   dragMove: (data) =>
     if @dragging
       position = data.getLocalPosition(@layer.parent); # get position relative to stage
-      x = position.x - @dragStartX
-      y = position.y - @dragStartY
-      @layer.position.x = x
-      @layer.position.y = y
+      x = position.x - @dragStartX;
+      y = position.y - @dragStartY;
       @map.mapMovedTo(x, y);
 
 

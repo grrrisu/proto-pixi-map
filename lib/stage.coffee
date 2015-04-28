@@ -21,4 +21,4 @@ class Game.Stage
     requestAnimFrame(@update);
 
   create: () =>
-    @map.create()
+    @map.create();

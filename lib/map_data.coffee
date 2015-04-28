@@ -3,6 +3,13 @@ class Game.MapData
   constructor: () ->
     @dataSets = [];
 
+  initMap: (fieldWidth, fieldHeight, callback) =>
+    Game.main.apiCaller.get '/spec/fixtures/init_map.json', (data) =>
+      data = JSON.parse(data);
+      @rx = data.headquarter.x - Math.floor(fieldWidth / 2);
+      @ry = data.headquarter.y - Math.floor(fieldHeight / 2);
+      @setupData(callback);
+
   setupData: (callback) =>
     Game.main.apiCaller.get '/spec/fixtures/map.json', (data) =>
       data = JSON.parse(data);

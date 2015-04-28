@@ -1,48 +1,32 @@
 class Game.Map
 
   constructor: (stage, options) ->
-    @layer = new PIXI.DisplayObjectContainer();
-    @drag_handler = new Game.MapDragHandler(@layer, this);
-    stage.addChild(@layer);
-    @data   = new Game.MapData();
+    @mapLayer     = new Game.MapLayer(stage);
+    @drag_handler = new Game.MapDragHandler(@mapLayer.layer, this);
+    @data         = new Game.MapData();
 
-    @width = options['width'];
-    @height = options['height'];
-    @fieldSize = options['fieldSize'];
-
-  create: () =>
-    console.log('create map');
-    @createFields();
+    @fieldSize   = options['fieldSize'];
+    @fieldWidth  = Math.ceil(options['width'] / @fieldSize) ;
+    @fieldHeight = Math.ceil(options['height'] / @fieldSize);
+    @mapLayer.setOutset(options['width'], options['height'], @fieldSize);
 
   init: (callback) =>
-    Game.main.apiCaller.get '/spec/fixtures/init_map.json', (data) =>
-      data = JSON.parse(data);
-      @data.rx = data.headquarter.x - Math.floor(@fieldWidth() / 2);
-      @data.ry = data.headquarter.y - Math.floor(@fieldHeight() / 2);
-      @ax = 0 - @width % @fieldSize;
-      @ay = 0 - @height % @fieldSize;
-      @data.setupData(callback);
+    @data.initMap(@fieldWidth, @fieldHeight, callback);
 
-  mapMovedTo: (ax, ay) =>
-    @ax = ax;
-    @ay = ay;
-    rx = Math.floor(@ax / @fieldSize)
-    ry = Math.floor(@ay / @fieldSize)
-    @data.mapMovedTo(rx, ry);
+  create: () =>
+    @createFields();
 
   createFields: () =>
-    for y in [0..@fieldHeight()]
-      for x in [0..@fieldWidth()]
+    for y in [0..@fieldHeight]
+      for x in [0..@fieldWidth]
         vegetation = @data.getVegetation(x, y);
-        #console.log(vegetation.type);
-        sprite = Game.main.assets.getVegetationSprite(vegetation.type)
-        sprite.position.x = @ax + x * (@fieldSize + 1); # +1 for border
-        sprite.position.y = @ay + y * (@fieldSize + 1); # +1 for border
-        #console.log(sprite.position);
-        @layer.addChild(sprite);
+        @mapLayer.setVegetation(x, y, vegetation, @fieldSize);
 
-  fieldWidth: () ->
-    Math.ceil(@width / @fieldSize)
+  mapMovedTo: (ax, ay) =>
+    @mapLayer.mapMovedTo(ax, ay);
+    rx = Math.floor(ax / @fieldSize)
+    ry = Math.floor(ay / @fieldSize)
+    @data.mapMovedTo(rx, ry);
 
-  fieldHeight: () ->
-    Math.ceil(@height / @fieldSize)
+  center: () =>
+    # move to headquarter position or init rx, ry for admin
