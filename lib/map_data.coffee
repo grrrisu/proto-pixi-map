@@ -11,12 +11,24 @@ class Game.MapData
       @setupData(callback);
 
   setupData: (callback) =>
-    Game.main.apiCaller.get '/spec/fixtures/map.json', (data) =>
-      data = JSON.parse(data);
-      @addDataSet(data);
-      callback();
+    @dataLoadedcallback = callback;
+
+    dataX = Math.floor(@rx / 10) * 10
+    dataY = Math.floor(@ry / 10) * 10
+
+    for x in [0, 10]
+      for y in [0, 10]
+        px = x + dataX;
+        py = y + dataY;
+        Game.main.apiCaller.get "/spec/fixtures/mapn_#{px}_#{py}.json", (data)
+          @addDataSet(data);
+          @setupDataLoaded: (px, py);
+
+  setupDataLoaded: () =>
+    @dataLoadedcallback();
 
   addDataSet: (data) =>
+    data = JSON.parse(data);
     data['x2'] = data.x + data['view'][0].length - 1;
     data['y2'] = data.y + data['view'].length - 1;
     @dataSets.push(data);
