@@ -20,9 +20,9 @@ class Game.MapData
       for y in [0, 10]
         px = x + dataX;
         py = y + dataY;
-        Game.main.apiCaller.get "/spec/fixtures/mapn_#{px}_#{py}.json", (data)
+        Game.main.apiCaller.get "/spec/fixtures/mapn_#{px}_#{py}.json", (data) ->
           @addDataSet(data);
-          @setupDataLoaded: (px, py);
+          @setupDataLoaded(px, py);
 
   setupDataLoaded: () =>
     @dataLoadedcallback();
