@@ -3,6 +3,7 @@ class Game.MapLayer
   constructor: (stage) ->
     @layer = new PIXI.DisplayObjectContainer();
     stage.addChild(@layer);
+    @fields = [];
 
   setOutset: (width, height, fieldSize) =>
     @outsetX = 0 - width % fieldSize;
