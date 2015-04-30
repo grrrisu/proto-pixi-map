@@ -8,6 +8,8 @@ class Game.MapData
       data = JSON.parse(data);
       @rx = data.headquarter.x - Math.floor(fieldWidth / 2);
       @ry = data.headquarter.y - Math.floor(fieldHeight / 2);
+      @startX = @rx;
+      @startY = @ry;
       @setupData(callback);
 
   setupData: (callback) =>
@@ -42,9 +44,15 @@ class Game.MapData
   getVegetation: (rx, ry) =>
     return @_getField(rx, ry)['vegetation'];
 
-  mapMovedTo: (rx, ry) =>
-    @rx = rx;
-    @ry = ry;
+  mapMovedTo: (ax, ay, fieldSize, callback) =>
+    rx = @startX + Math.floor(ax / fieldSize);
+    ry = @startY + Math.floor(ay / fieldSize);
+    if @rx != rx || @ry != ry
+      deltaX = rx - @rx;
+      deltaY = ry - @ry;
+      @rx = rx;
+      @ry = ry;
+      callback(deltaX, deltaY);
 
   # private
 

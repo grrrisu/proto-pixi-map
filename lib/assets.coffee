@@ -27,3 +27,6 @@ class Game.Assets
       @pool.getSprite(image);
     else
       console.log("ERROR: unkown type: #{type}");
+
+  returnSprite: (image, sprite) =>
+    @pool.returnSprite(image, sprite);

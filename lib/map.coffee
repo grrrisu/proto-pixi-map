@@ -4,6 +4,7 @@ class Game.Map
     @mapLayer     = new Game.MapLayer(stage);
     @drag_handler = new Game.MapDragHandler(@mapLayer.layer, this);
     @data         = new Game.MapData();
+    @fields       = [];
 
     @fieldSize   = options['fieldSize'];
     @fieldWidth  = Math.ceil(options['width'] / @fieldSize) ;
@@ -14,19 +15,24 @@ class Game.Map
     @data.initMap(@fieldWidth, @fieldHeight, callback);
 
   create: () =>
-    @createFields();
+    @createFields(@fieldWidth, @fieldHeight);
 
-  createFields: () =>
-    for y in [0..@fieldHeight]
-      for x in [0..@fieldWidth]
+  createFields: (rangeX, rangeY) =>
+    for y in [0..rangeY]
+      for x in [0..rangeX]
         vegetation = @data.getVegetation(x, y);
-        @mapLayer.setVegetation(x, y, vegetation, @fieldSize);
+        field = new Game.Field(@data.rx + x, @data.ry + y);
+        @fields.push(field);
+        @mapLayer.setVegetation(x, y, vegetation, @fieldSize, field);
 
   mapMovedTo: (ax, ay) =>
     @mapLayer.mapMovedTo(ax, ay);
-    rx = Math.floor(ax / @fieldSize)
-    ry = Math.floor(ay / @fieldSize)
-    @data.mapMovedTo(rx, ry);
+    @data.mapMovedTo ax, ay, @fieldSize, (deltaX, deltaY) =>
+      console.log("rx #{@data.rx} dx #{deltaX}");
+      if deltaX != 0
+        @createFields(deltaX, @fieldHeight);
+      else if deltaY != 0
+        @createFields(@fieldWidth, deltaY);
 
   center: () =>
     # move to headquarter position or init rx, ry for admin
