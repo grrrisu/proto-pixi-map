@@ -6,8 +6,8 @@ class Game.MapData
   initMap: (fieldWidth, fieldHeight, callback) =>
     Game.main.apiCaller.get '/spec/fixtures/init_map.json', (data) =>
       data = JSON.parse(data);
-      @rx = data.headquarter.x - Math.floor(fieldWidth / 2);
-      @ry = data.headquarter.y - Math.floor(fieldHeight / 2);
+      @rx = data.headquarter.x - Math.ceil(fieldWidth / 2);
+      @ry = data.headquarter.y - Math.ceil(fieldHeight / 2);
       @startX = @rx;
       @startY = @ry;
       @setupData(callback);
@@ -50,8 +50,8 @@ class Game.MapData
     if @rx != rx || @ry != ry
       deltaX = rx - @rx;
       deltaY = ry - @ry;
-      @rx = rx;
-      @ry = ry;
+      #@rx = rx;
+      #@ry = ry;
       callback(deltaX, deltaY);
 
   # private

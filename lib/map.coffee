@@ -12,7 +12,11 @@ class Game.Map
     @mapLayer.setOutset(options['width'], options['height'], @fieldSize);
 
   init: (callback) =>
-    @data.initMap(@fieldWidth, @fieldHeight, callback);
+    @data.initMap @fieldWidth, @fieldHeight, () =>
+      x = -@data.rx * @fieldSize + Math.ceil(@fieldWidth * @fieldSize / 2)
+      y = -@data.ry * @fieldSize + Math.ceil(@fieldWidth * @fieldSize / 2)
+      @mapLayer.mapMovedTo(x, y);
+      callback();
 
   create: () =>
     @createFields(@fieldWidth, @fieldHeight);
@@ -29,10 +33,10 @@ class Game.Map
     @mapLayer.mapMovedTo(ax, ay);
     @data.mapMovedTo ax, ay, @fieldSize, (deltaX, deltaY) =>
       console.log("rx #{@data.rx} dx #{deltaX}");
-      if deltaX != 0
-        @createFields(deltaX, @fieldHeight);
-      else if deltaY != 0
-        @createFields(@fieldWidth, deltaY);
+      # if deltaX != 0
+      #   @createFields(deltaX, @fieldHeight);
+      # else if deltaY != 0
+      #   @createFields(@fieldWidth, deltaY);
 
   center: () =>
     # move to headquarter position or init rx, ry for admin

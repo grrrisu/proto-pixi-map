@@ -7,13 +7,13 @@ class Game.MapLayer
     @ay = 0;
 
   setOutset: (width, height, fieldSize) =>
-    @outsetX = 0 - width % fieldSize;
-    @outsetY = 0 - height % fieldSize;
+    @outsetX = 0 - (width % fieldSize / 2).round();
+    @outsetY = 0 - (height % fieldSize / 2).round();
 
   setVegetation: (x, y, vegetation, fieldSize, field) =>
     sprite = Game.main.assets.getVegetationSprite(vegetation.type)
-    sprite.position.x = @outsetX + x * (fieldSize + 1); # +1 for border
-    sprite.position.y = @outsetY + y * (fieldSize + 1); # +1 for border
+    sprite.position.x = -@ax + @outsetX + x * (fieldSize + 1); # +1 for border
+    sprite.position.y = -@ay + @outsetY + y * (fieldSize + 1); # +1 for border
     field.setVegetationSprite(sprite);
     @layer.addChild(sprite);
 
