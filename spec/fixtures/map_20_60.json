@@ -7,7 +7,7 @@
         "x": 25,
         "y": 50,
         "vegetation": {
-          "type": 1,
+          "type": 0,
           "size": 250
         }
       },
@@ -100,18 +100,6 @@
           "health": 50,
           "age": 0
         }
-      },
-      {
-        "x": 36,
-        "y": 50,
-        "vegetation": {
-          "type": 13,
-          "size": 650
-        },
-        "flora": {
-          "type": "banana_2",
-          "size": 25
-        }
       }
     ],
     [
@@ -207,14 +195,6 @@
           "health": 50,
           "age": 0
         }
-      },
-      {
-        "x": 36,
-        "y": 51,
-        "vegetation": {
-          "type": 13,
-          "size": 650
-        }
       }
     ],
     [
@@ -308,14 +288,6 @@
         "flora": {
           "type": "banana_2",
           "size": 25
-        }
-      },
-      {
-        "x": 36,
-        "y": 52,
-        "vegetation": {
-          "type": 5,
-          "size": 250
         }
       }
     ],
@@ -518,18 +490,6 @@
         "vegetation": {
           "type": 13,
           "size": 650
-        }
-      },
-      {
-        "x": 36,
-        "y": 54,
-        "vegetation": {
-          "type": 13,
-          "size": 650
-        },
-        "flora": {
-          "type": "banana_3",
-          "size": 40
         }
       }
     ],
@@ -750,19 +710,6 @@
           "type": "banana_1",
           "size": 15
         }
-      },
-      {
-        "x": 36,
-        "y": 56,
-        "vegetation": {
-          "type": 13,
-          "size": 650
-        },
-        "fauna": {
-          "type": "rabbit",
-          "health": 20,
-          "age": 0
-        }
       }
     ],
     [
@@ -861,14 +808,6 @@
         "vegetation": {
           "type": 13,
           "size": 650
-        }
-      },
-      {
-        "x": 36,
-        "y": 57,
-        "vegetation": {
-          "type": 5,
-          "size": 250
         }
       }
     ],
@@ -964,14 +903,6 @@
       },
       {
         "x": 35,
-        "y": 58,
-        "vegetation": {
-          "type": 5,
-          "size": 250
-        }
-      },
-      {
-        "x": 36,
         "y": 58,
         "vegetation": {
           "type": 5,
@@ -1082,14 +1013,6 @@
           "type": 5,
           "size": 250
         }
-      },
-      {
-        "x": 36,
-        "y": 59,
-        "vegetation": {
-          "type": 5,
-          "size": 250
-        }
       }
     ],
     [
@@ -1180,125 +1103,6 @@
       {
         "x": 35,
         "y": 60,
-        "vegetation": {
-          "type": 13,
-          "size": 650
-        },
-        "flora": {
-          "type": "banana_3",
-          "size": 40
-        }
-      },
-      {
-        "x": 36,
-        "y": 60,
-        "vegetation": {
-          "type": 5,
-          "size": 250
-        }
-      }
-    ],
-    [
-      {
-        "x": 25,
-        "y": 61,
-        "vegetation": {
-          "type": 8,
-          "size": 400
-        }
-      },
-      {
-        "x": 26,
-        "y": 61,
-        "vegetation": {
-          "type": 8,
-          "size": 400
-        }
-      },
-      {
-        "x": 27,
-        "y": 61,
-        "vegetation": {
-          "type": 8,
-          "size": 400
-        }
-      },
-      {
-        "x": 28,
-        "y": 61,
-        "vegetation": {
-          "type": 5,
-          "size": 250
-        }
-      },
-      {
-        "x": 29,
-        "y": 61,
-        "vegetation": {
-          "type": 5,
-          "size": 250
-        }
-      },
-      {
-        "x": 30,
-        "y": 61,
-        "vegetation": {
-          "type": 13,
-          "size": 650
-        }
-      },
-      {
-        "x": 31,
-        "y": 61,
-        "vegetation": {
-          "type": 13,
-          "size": 650
-        },
-        "flora": {
-          "type": "banana_1",
-          "size": 15
-        }
-      },
-      {
-        "x": 32,
-        "y": 61,
-        "vegetation": {
-          "type": 13,
-          "size": 650
-        }
-      },
-      {
-        "x": 33,
-        "y": 61,
-        "vegetation": {
-          "type": 13,
-          "size": 650
-        }
-      },
-      {
-        "x": 34,
-        "y": 61,
-        "vegetation": {
-          "type": 13,
-          "size": 650
-        },
-        "fauna": {
-          "type": "leopard",
-          "health": 50,
-          "age": 0
-        }
-      },
-      {
-        "x": 35,
-        "y": 61,
-        "vegetation": {
-          "type": 13,
-          "size": 650
-        }
-      },
-      {
-        "x": 36,
-        "y": 61,
         "vegetation": {
           "type": 13,
           "size": 650

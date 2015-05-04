@@ -6,8 +6,10 @@ class Game.MapData
   initMap: (fieldWidth, fieldHeight, callback) =>
     Game.main.apiCaller.get '/spec/fixtures/init_map.json', (data) =>
       data = JSON.parse(data);
-      @rx = data.headquarter.x - Math.ceil(fieldWidth / 2);
-      @ry = data.headquarter.y - Math.ceil(fieldHeight / 2);
+      console.log("hx #{data.headquarter.x} hy #hy #{data.headquarter.y}")
+      @rx = data.headquarter.x - Math.floor(fieldWidth / 2);
+      @ry = data.headquarter.y - Math.floor(fieldHeight / 2);
+      console.log("x #{@rx} y #{@ry}");
       @startX = @rx;
       @startY = @ry;
       @setupData(callback);
@@ -65,4 +67,4 @@ class Game.MapData
 
   _getDataSet: (rx, ry) =>
     @dataSets.find (dataSet) ->
-      return dataSet.x <= rx && dataSet.x2 >= rx && dataSet.y <= ry && dataSet.y2 >= ry;
+      return dataSet.x <= rx && dataSet.x2 > rx && dataSet.y <= ry && dataSet.y2 > ry;
