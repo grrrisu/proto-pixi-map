@@ -50,15 +50,13 @@ class Game.MapData
     if @rx != rx || @ry != ry
       deltaX = rx - @rx;
       deltaY = ry - @ry;
-      #@rx = rx;
-      #@ry = ry;
+      @rx = rx;
+      @ry = ry;
       callback(deltaX, deltaY);
 
   # private
 
   _getField: (rx, ry) ->
-    rx = @rx + rx
-    ry = @ry + ry
     dataSet = @_getDataSet(rx, ry);
     if dataSet?
       return dataSet['view'][ry - dataSet.y][rx - dataSet.x];
