@@ -20,26 +20,31 @@ class Game.Map
 
   create: () =>
     console.log("x #{@data.rx} y #{@data.ry}");
-    @createFields(@fieldWidth, @fieldHeight);
+    @createFields(0, @fieldWidth, 0, @fieldHeight);
 
-  createFields: (rangeX, rangeY) =>
-    for y in [0...rangeY]
-      for x in [0...rangeX]
+  createFields: (startX, endX, startY, endY) =>
+    for y in [startY...endY]
+      for x in [startX...endX]
         rx = @data.rx + x;
         ry = @data.ry + y;
         vegetation = @data.getVegetation(rx, ry);
-        field = new Game.Field(rx, ry);
-        @fields.push(field);
-        @mapLayer.setVegetation(rx, ry, vegetation, @fieldSize, field);
+        if vegetation?
+          field = new Game.Field(rx, ry);
+          @fields.push(field);
+          @mapLayer.setVegetation(rx, ry, vegetation, @fieldSize, field);
 
   mapMovedTo: (ax, ay) =>
     @mapLayer.mapMovedTo(ax, ay);
     @data.mapMovedTo ax, ay, @fieldSize, (deltaX, deltaY) =>
       console.log("rx #{@data.rx} dx #{deltaX}");
-      if deltaX != 0
-        @createFields(deltaX, @fieldHeight);
-      else if deltaY != 0
-        @createFields(@fieldWidth, deltaY);
+      if deltaX > 0 # move to the right
+        @createFields(@fieldWidth - deltaX, @fieldWidth, 0, @fieldHeight);
+      else if deltaX < 0 # move to the left
+        @createFields(0, Math.abs(deltaX), 0, @fieldHeight);
+      if deltaY > 0 # move down
+        @createFields(0, @fieldWidth, @fieldHeight - deltaY, @fieldHeight);
+      else if deltaY < 0 # move up
+        @createFields(0, @fieldWidth, 0, Math.abs(deltaY));
 
   center: () =>
     # move to headquarter position or init rx, ry for admin

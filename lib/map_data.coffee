@@ -9,20 +9,19 @@ class Game.MapData
       console.log("hx #{data.headquarter.x} hy #hy #{data.headquarter.y}")
       @rx = data.headquarter.x - Math.floor(fieldWidth / 2);
       @ry = data.headquarter.y - Math.floor(fieldHeight / 2);
-      console.log("x #{@rx} y #{@ry}");
       @startX = @rx;
       @startY = @ry;
       @setupData(callback);
 
   setupData: (callback) =>
     @dataLoadedcallback = callback;
-    @dataToLoad = 4;
+    @dataToLoad = 9;
 
-    dataX = Math.floor(@rx / 10) * 10
-    dataY = Math.floor(@ry / 10) * 10
+    dataX = Math.ceil(@rx / 10) * 10
+    dataY = Math.ceil(@ry / 10) * 10
 
-    for x in [0, 10]
-      for y in [0, 10]
+    for x in [0, 10, -10]
+      for y in [0, 10, -10]
         px = x + dataX;
         py = y + dataY;
         Game.main.apiCaller.get "/spec/fixtures/map_#{px}_#{py}.json", (data) =>
@@ -44,11 +43,13 @@ class Game.MapData
     # how to identify packages
 
   getVegetation: (rx, ry) =>
-    return @_getField(rx, ry)['vegetation'];
+    field = @_getField(rx, ry)
+    if field?
+      return field['vegetation'];
 
   mapMovedTo: (ax, ay, fieldSize, callback) =>
-    rx = @startX + Math.floor(ax / fieldSize);
-    ry = @startY + Math.floor(ay / fieldSize);
+    rx = Math.floor(-ax / fieldSize);
+    ry = Math.floor(-ay / fieldSize);
     if @rx != rx || @ry != ry
       deltaX = rx - @rx;
       deltaY = ry - @ry;
