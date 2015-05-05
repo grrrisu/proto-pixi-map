@@ -29,9 +29,12 @@ class Game.Map
         ry = @data.ry + y;
         vegetation = @data.getVegetation(rx, ry);
         if vegetation?
-          field = new Game.Field(rx, ry);
-          @fields.push(field);
-          @mapLayer.setVegetation(rx, ry, vegetation, @fieldSize, field);
+          already_created = @fields.any (field) =>
+            return field.rx == rx && field.ry == ry;
+          unless already_created
+            field = new Game.Field(rx, ry);
+            @fields.unshift(field);
+            @mapLayer.setVegetation(rx, ry, vegetation, @fieldSize, field);
 
   mapMovedTo: (ax, ay) =>
     @mapLayer.mapMovedTo(ax, ay);
