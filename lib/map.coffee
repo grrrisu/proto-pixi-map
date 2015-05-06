@@ -28,13 +28,18 @@ class Game.Map
         rx = @data.rx + x;
         ry = @data.ry + y;
         vegetation = @data.getVegetation(rx, ry);
-        if vegetation?
-          already_created = @fields.any (field) =>
-            return field.rx == rx && field.ry == ry;
-          unless already_created
-            field = new Game.Field(rx, ry);
-            @fields.unshift(field);
-            @mapLayer.setVegetation(rx, ry, vegetation, @fieldSize, field);
+        @createField(rx, ry, vegetation);
+
+  createField: (rx, ry, vegetation) =>
+    if vegetation?
+
+      already_created = @fields.any (field) =>
+        return field.rx == rx && field.ry == ry;
+
+      unless already_created
+        field = new Game.Field(rx, ry);
+        @fields.unshift(field);
+        @mapLayer.setVegetation(rx, ry, vegetation, @fieldSize, field);
 
   mapMovedTo: (ax, ay) =>
     @mapLayer.mapMovedTo(ax, ay);

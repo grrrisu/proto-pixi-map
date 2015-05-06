@@ -14,10 +14,14 @@ class Game.MapData
       @setupData(callback);
 
   setupData: (callback) =>
-    @dataLoadedcallback = callback;
-    @dataToLoad = 9;
-    @loadData () =>
-      @setupDataLoaded();
+    @dataLoadedCallback = callback;
+    @dataToLoad = 9; # initial 3 x 3
+    @loadData(@setupDataLoaded);
+
+  setupDataLoaded: () =>
+    @dataToLoad -= 1;
+    if @dataToLoad == 0
+      @dataLoadedCallback();
 
   loadData: (callback) =>
     dataX = Math.ceil(@rx / 10) * 10
@@ -27,14 +31,16 @@ class Game.MapData
       for y in [0, 10, -10]
         px = x + dataX;
         py = y + dataY;
-        Game.main.apiCaller.get "/spec/fixtures/map_#{px}_#{py}.json", (data) =>
-          @addDataSet(data);
-          callback();
 
-  setupDataLoaded: () =>
-    @dataToLoad -= 1;
-    if @dataToLoad == 0
-      @dataLoadedcallback();
+        unless @isDataSetLoaded(px, py)
+          Game.main.apiCaller.get "/spec/fixtures/map_#{px}_#{py}.json", (data) =>
+            @addDataSet(data);
+            if callback?
+              callback();
+
+  isDataSetLoaded: (x, y) =>
+    @dataSets.any (dataSet) ->
+      dataSet.x == x && dataSet.y == y
 
   addDataSet: (data) =>
     data = JSON.parse(data);
@@ -58,8 +64,8 @@ class Game.MapData
       deltaY = ry - @ry;
       @rx = rx;
       @ry = ry;
-      @loadData () =>
-        callback(deltaX, deltaY);
+      @loadData();
+      callback(deltaX, deltaY);
 
   # private
 
