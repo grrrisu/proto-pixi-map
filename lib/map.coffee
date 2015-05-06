@@ -23,23 +23,26 @@ class Game.Map
     @createFields(0, @fieldWidth, 0, @fieldHeight);
 
   createFields: (startX, endX, startY, endY) =>
-    for y in [startY...endY]
-      for x in [startX...endX]
-        rx = @data.rx + x;
-        ry = @data.ry + y;
-        vegetation = @data.getVegetation(rx, ry);
-        @createField(rx, ry, vegetation);
+    @data.eachField startX, endX, startY, endY, (rx, ry) =>
+      vegetation = @data.getVegetation(rx, ry);
+        @createField(rx, ry, vegetation) if vegetation?;
+
+
+  removeFields: (startX, endX, startY, endY) =>
+    @data.eachField startX, endX, startY, endY, (rx, ry) =>
+      @fields.remove (field) ->
+        if field.rx == rx && field.ry == ry
+          field.clear();
+          return true;
 
   createField: (rx, ry, vegetation) =>
-    if vegetation?
+    already_created = @fields.any (field) =>
+      return field.rx == rx && field.ry == ry;
 
-      already_created = @fields.any (field) =>
-        return field.rx == rx && field.ry == ry;
-
-      unless already_created
-        field = new Game.Field(rx, ry);
-        @fields.unshift(field);
-        @mapLayer.setVegetation(rx, ry, vegetation, @fieldSize, field);
+    unless already_created
+      field = new Game.Field(rx, ry);
+      @fields.unshift(field);
+      @mapLayer.setVegetation(rx, ry, vegetation, @fieldSize, field);
 
   mapMovedTo: (ax, ay) =>
     @mapLayer.mapMovedTo(ax, ay);
@@ -47,12 +50,16 @@ class Game.Map
       console.log("rx #{@data.rx} dx #{deltaX}");
       if deltaX > 0 # move to the right
         @createFields(@fieldWidth - deltaX, @fieldWidth, 0, @fieldHeight);
+        @removeFields(0 - deltaX, 0, 0, @fieldHeight);
       else if deltaX < 0 # move to the left
         @createFields(0, Math.abs(deltaX), 0, @fieldHeight);
+        @removeFields(@fieldWidth, @fieldWidth - deltaX, 0, @fieldHeight);
       if deltaY > 0 # move down
         @createFields(0, @fieldWidth, @fieldHeight - deltaY, @fieldHeight);
+        @removeFields(0, @fieldWidth, 0 - deltaY, 0);
       else if deltaY < 0 # move up
         @createFields(0, @fieldWidth, 0, Math.abs(deltaY));
+        @removeFields(0, @fieldWidth, @fieldHeight, @fieldHeight - deltaY);
 
   center: () =>
     # move to headquarter position or init rx, ry for admin

@@ -67,6 +67,11 @@ class Game.MapData
       @loadData();
       callback(deltaX, deltaY);
 
+  eachField: (startX, endX, startY, endY, callback) =>
+    for y in [startY...endY]
+      for x in [startX...endX]
+        callback(@rx + x, @ry + y);
+
   # private
 
   _getField: (rx, ry) ->
