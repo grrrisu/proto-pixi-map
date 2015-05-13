@@ -25,7 +25,7 @@ class Game.Map
   createFields: (startX, endX, startY, endY) =>
     @data.eachField startX, endX, startY, endY, (rx, ry) =>
       vegetation = @data.getVegetation(rx, ry);
-        @createField(rx, ry, vegetation) if vegetation?;
+      @createField(rx, ry, vegetation) if vegetation?;
 
 
   removeFields: (startX, endX, startY, endY) =>
