@@ -2,7 +2,7 @@ describe("MapData", function() {
 
   beforeAll(function() {
     data =
-    {
+    `{
       "x": 25,
       "y": 50,
       "view":
@@ -44,7 +44,7 @@ describe("MapData", function() {
           }
         ]
       ]
-    };
+    }`;
 
     mapData = new Game.MapData();
     mapData.addDataSet(data);
@@ -57,8 +57,8 @@ describe("MapData", function() {
   });
 
   it("should get vegetation", function() {
-    vegetation = mapData.getVegetation(25, 51);
-    expect(vegetation.type).toEqual(3);
+    vegetation = mapData.getVegetation(25, 50);
+    expect(vegetation.type).toEqual(1);
   });
 
 });

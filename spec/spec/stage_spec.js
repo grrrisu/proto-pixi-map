@@ -1,4 +1,4 @@
-describe("Main", function() {
+describe("Stage", function() {
 
   beforeAll(function() {
     map = document.createElement('canvas');
@@ -8,16 +8,16 @@ describe("Main", function() {
     map.setAttribute('style', 'width: 600px; height: 300px;')
     document.body.appendChild(map);
 
-    main = new Game.Main('map');
+    stage = new Game.Stage('map');
   });
 
   it("should create stage", function() {
-    expect(main.stage).not.toBeUndefined();
+    expect(stage).not.toBeUndefined();
   });
 
   it("should create renderer", function() {
-    expect(main.renderer.width).toEqual(600);
-    expect(main.renderer.height).toEqual(300);
+    expect(stage.renderer.width).toEqual(600 * window.devicePixelRatio);
+    expect(stage.renderer.height).toEqual(300 * window.devicePixelRatio);
   });
 
 });
