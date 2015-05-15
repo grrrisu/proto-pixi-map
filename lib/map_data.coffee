@@ -64,7 +64,9 @@ class Game.MapData
     rx = Math.floor(-ax / fieldSize);
     ry = Math.floor(-ay / fieldSize);
     if @rx != rx || @ry != ry
-      @setDataPosition(rx - @rx, ry - @ry);
+      deltaX = rx - @rx;
+      deltaY = ry - @ry;
+      @setDataPosition(rx, ry);
       @updateData();
       callback(deltaX, deltaY);
 
