@@ -73,8 +73,8 @@ class Game.MapData
   setDataPosition: (rx, ry) =>
     @rx = rx; # viewport x
     @ry = ry; # viewport y
-    @dataX = Math.ceil(@rx / 10) * 10; # dataset start x
-    @dataY = Math.ceil(@ry / 10) * 10; # dataset start y
+    @dataX = Math.round(@rx / 10) * 10; # dataset start x
+    @dataY = Math.round(@ry / 10) * 10; # dataset start y
 
   eachField: (startX, endX, startY, endY, callback) =>
     for y in [startY...endY]

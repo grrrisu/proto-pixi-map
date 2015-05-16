@@ -61,4 +61,36 @@ describe("MapData", function() {
     expect(vegetation.type).toEqual(1);
   });
 
+  it("should set position", function() {
+    mapData.setDataPosition(33, 47);
+    expect(mapData.rx).toEqual(33);
+    expect(mapData.ry).toEqual(47);
+    expect(mapData.dataX).toEqual(30);
+    expect(mapData.dataY).toEqual(50);
+  });
+
+  it("should load data", function() {
+    callback = function() {};
+    spyOn(mapData, "isDataSetLoaded").and.returnValue(true);
+
+    mapData.loadData(callback);
+    expect(mapData.isDataSetLoaded).toHaveBeenCalled();
+    expect(mapData.isDataSetLoaded.calls.count()).toEqual(9);
+
+    expect(mapData.isDataSetLoaded.calls.argsFor(0)).toEqual([30, 50]);
+    expect(mapData.isDataSetLoaded.calls.argsFor(1)).toEqual([30, 60]);
+    expect(mapData.isDataSetLoaded.calls.argsFor(2)).toEqual([30, 40]);
+    expect(mapData.isDataSetLoaded.calls.argsFor(3)).toEqual([40, 50]);
+    expect(mapData.isDataSetLoaded.calls.argsFor(4)).toEqual([40, 60]);
+    expect(mapData.isDataSetLoaded.calls.argsFor(5)).toEqual([40, 40]);
+    expect(mapData.isDataSetLoaded.calls.argsFor(6)).toEqual([20, 50]);
+    expect(mapData.isDataSetLoaded.calls.argsFor(7)).toEqual([20, 60]);
+    expect(mapData.isDataSetLoaded.calls.argsFor(8)).toEqual([20, 40]);
+  });
+
+  it("should update data when moving map", function(){
+    callback = function() {};
+    mapData.mapMovedTo(43, 80, 15, callback);
+  });
+
 });
