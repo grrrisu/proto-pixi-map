@@ -89,8 +89,15 @@ describe("MapData", function() {
   });
 
   it("should update data when moving map", function(){
-    callback = function() {};
-    mapData.mapMovedTo(43, 80, 15, callback);
+    mapData.setDataPosition(5, 5)
+    callback = jasmine.createSpy('mapCallback');
+    spyOn(mapData, "setDataPosition");
+    spyOn(mapData, "updateData");
+
+    mapData.mapMovedTo(-43, -80, 15, callback);
+    expect(mapData.setDataPosition).toHaveBeenCalledWith(2, 5);
+    expect(mapData.updateData).toHaveBeenCalled();
+    expect(callback).toHaveBeenCalledWith(-3, 0);
   });
 
 });
