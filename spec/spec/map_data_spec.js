@@ -88,16 +88,56 @@ describe("MapData", function() {
     expect(mapData.isDataSetLoaded.calls.argsFor(8)).toEqual([20, 40]);
   });
 
-  it("should update data when moving map", function(){
-    mapData.setDataPosition(5, 5)
-    callback = jasmine.createSpy('mapCallback');
-    spyOn(mapData, "setDataPosition");
-    spyOn(mapData, "updateData");
+  describe("move map", function() {
 
-    mapData.mapMovedTo(-43, -80, 15, callback);
-    expect(mapData.setDataPosition).toHaveBeenCalledWith(2, 5);
-    expect(mapData.updateData).toHaveBeenCalled();
-    expect(callback).toHaveBeenCalledWith(-3, 0);
+    beforeEach(function() {
+      mapData.setDataPosition(5, 5);
+      callback = jasmine.createSpy('mapCallback');
+      updateDataCall = spyOn(mapData, "updateData");
+    });
+
+    it("should set new position", function(){
+      spyOn(mapData, "setDataPosition");
+      mapData.mapMovedTo(-43, -80, 15, callback);
+      expect(mapData.setDataPosition).toHaveBeenCalledWith(2, 5);
+    });
+
+    it("should remove data", function(){
+      obsoleteData = {x: 20, y: 20, x2: 20, y2: 20}
+      mapData.dataSets.push(obsoleteData);
+
+      updateDataCall.and.callThrough();
+      spyOn(mapData, "loadData");
+
+      expect(mapData.dataSets.length).toEqual(2);
+      mapData.mapMovedTo(-43, -80, 15, callback);
+      expect(mapData.dataSets.length).toEqual(0);
+    });
+
+    it("should load new data", function() {
+      spyOn(mapData, "isDataSetLoaded").and.returnValue(true);
+      updateDataCall.and.callThrough();
+
+      mapData.mapMovedTo(-43, -80, 15, callback);
+
+      expect(mapData.isDataSetLoaded).toHaveBeenCalled();
+
+      expect(mapData.isDataSetLoaded.calls.argsFor(0)).toEqual([0, 10]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(1)).toEqual([0, 20]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(2)).toEqual([0, 0]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(3)).toEqual([10, 10]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(4)).toEqual([10, 20]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(5)).toEqual([10, 0]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(6)).toEqual([-10, 10]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(7)).toEqual([-10, 20]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(8)).toEqual([-10, 0]);
+    });
+
+    it("should call parent with delta", function() {
+      mapData.mapMovedTo(-43, -80, 15, callback);
+      expect(callback).toHaveBeenCalledWith(-3, 0);
+    });
+
   });
 
 });

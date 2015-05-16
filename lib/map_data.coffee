@@ -30,7 +30,7 @@ class Game.MapData
     @loadData();
 
   removeData: () =>
-    @dataSets.remove (dataSet) ->
+    @dataSets.remove (dataSet) =>
       return dataSet.x < @dataX - 10 || dataSet.x2 > @dataX + 10 || dataSet.y < @dataY - 10 || dataSet.y2 > @dataY + 10;
 
   loadData: (callback) =>
