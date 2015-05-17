@@ -1,6 +1,6 @@
 describe("MapData", function() {
 
-  beforeAll(function() {
+  beforeEach(function() {
     data =
     `{
       "x": 25,
@@ -50,48 +50,93 @@ describe("MapData", function() {
     mapData.addDataSet(data);
   });
 
-  it("should set dimensions", function() {
-    dataSet = mapData.dataSets[0]
-    expect(dataSet['x2']).toEqual(26);
-    expect(dataSet['y2']).toEqual(51);
+  describe("getter and setter", function() {
+
+    it("should set dimensions", function() {
+      dataSet = mapData.dataSets[0]
+      expect(dataSet['x2']).toEqual(26);
+      expect(dataSet['y2']).toEqual(51);
+    });
+
+    it("should get vegetation", function() {
+      vegetation = mapData.getVegetation(25, 50);
+      expect(vegetation.type).toEqual(1);
+    });
+
+    it("should set position", function() {
+      mapData.setDataPosition(33, 47);
+      expect(mapData.rx).toEqual(33);
+      expect(mapData.ry).toEqual(47);
+      expect(mapData.dataX).toEqual(30);
+      expect(mapData.dataY).toEqual(50);
+    });
+
   });
 
-  it("should get vegetation", function() {
-    vegetation = mapData.getVegetation(25, 50);
-    expect(vegetation.type).toEqual(1);
-  });
+  describe("with position", function() {
 
-  it("should set position", function() {
-    mapData.setDataPosition(33, 47);
-    expect(mapData.rx).toEqual(33);
-    expect(mapData.ry).toEqual(47);
-    expect(mapData.dataX).toEqual(30);
-    expect(mapData.dataY).toEqual(50);
-  });
+    beforeEach(function() {
+      mapData.setDataPosition(33, 47);
+    });
 
-  it("should load data", function() {
-    callback = function() {};
-    spyOn(mapData, "isDataSetLoaded").and.returnValue(true);
+    it("should not remove already loaded data", function(){
+      // dataX 30 dataY 50
+      mapData.dataSets = [
+        {x: 30, y: 50, x2: 40, y2: 60},
+        {x: 30, y: 60, x2: 40, y2: 70},
+        {x: 30, y: 40, x2: 40, y2: 50},
+        {x: 40, y: 50, x2: 50, y2: 60},
+        {x: 40, y: 60, x2: 50, y2: 70},
+        {x: 40, y: 40, x2: 50, y2: 50},
+        {x: 20, y: 50, x2: 30, y2: 60},
+        {x: 20, y: 60, x2: 30, y2: 70},
+        {x: 20, y: 40, x2: 30, y2: 50}
+      ];
+      mapData.removeData();
+      expect(mapData.dataSets.length).toEqual(9);
+    });
 
-    mapData.loadData(callback);
-    expect(mapData.isDataSetLoaded).toHaveBeenCalled();
-    expect(mapData.isDataSetLoaded.calls.count()).toEqual(9);
+    it("should remove distant data", function(){
+      mapData.dataSets = [
+        {x: 10, y: 50, x2: 20, y2: 60},
+        {x: 10, y: 60, x2: 20, y2: 70},
+        {x: 10, y: 40, x2: 20, y2: 50},
+        {x: 40, y: 30, x2: 50, y2: 40},
+        {x: 40, y: 70, x2: 50, y2: 80},
+        {x: 40, y: 40, x2: 50, y2: 50},
+        {x: 50, y: 50, x2: 60, y2: 60},
+        {x: 50, y: 60, x2: 60, y2: 70},
+        {x: 50, y: 40, x2: 60, y2: 50}
+      ];
+      mapData.removeData();
+      expect(mapData.dataSets.length).toEqual(1);
+    });
 
-    expect(mapData.isDataSetLoaded.calls.argsFor(0)).toEqual([30, 50]);
-    expect(mapData.isDataSetLoaded.calls.argsFor(1)).toEqual([30, 60]);
-    expect(mapData.isDataSetLoaded.calls.argsFor(2)).toEqual([30, 40]);
-    expect(mapData.isDataSetLoaded.calls.argsFor(3)).toEqual([40, 50]);
-    expect(mapData.isDataSetLoaded.calls.argsFor(4)).toEqual([40, 60]);
-    expect(mapData.isDataSetLoaded.calls.argsFor(5)).toEqual([40, 40]);
-    expect(mapData.isDataSetLoaded.calls.argsFor(6)).toEqual([20, 50]);
-    expect(mapData.isDataSetLoaded.calls.argsFor(7)).toEqual([20, 60]);
-    expect(mapData.isDataSetLoaded.calls.argsFor(8)).toEqual([20, 40]);
+    it("should load data", function() {
+      callback = function() {};
+      spyOn(mapData, "isDataSetLoaded").and.returnValue(true);
+
+      mapData.loadData(callback);
+      expect(mapData.isDataSetLoaded).toHaveBeenCalled();
+      expect(mapData.isDataSetLoaded.calls.count()).toEqual(9);
+
+      expect(mapData.isDataSetLoaded.calls.argsFor(0)).toEqual([30, 50]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(1)).toEqual([30, 60]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(2)).toEqual([30, 40]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(3)).toEqual([40, 50]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(4)).toEqual([40, 60]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(5)).toEqual([40, 40]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(6)).toEqual([20, 50]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(7)).toEqual([20, 60]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(8)).toEqual([20, 40]);
+    });
+
   });
 
   describe("move map", function() {
 
     beforeEach(function() {
-      mapData.setDataPosition(5, 5);
+      mapData.setDataPosition(5, 5); // position before moving
       callback = jasmine.createSpy('mapCallback');
       updateDataCall = spyOn(mapData, "updateData");
     });
@@ -103,7 +148,7 @@ describe("MapData", function() {
     });
 
     it("should remove data", function(){
-      obsoleteData = {x: 20, y: 20, x2: 20, y2: 20}
+      obsoleteData = {x: 20, y: 20, x2: 30, y2: 30}
       mapData.dataSets.push(obsoleteData);
 
       updateDataCall.and.callThrough();
