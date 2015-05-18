@@ -2,14 +2,15 @@ class Game.Field
 
   constructor: (@rx, @ry) ->
 
-  clear: () =>
-    @removeVegetationSprite();
-    @removeFloraSprite();
+  clear: (mapLayer) =>
+    @removeFloraSprite() if @floraSprite?;
+    @removeVegetationSprite(mapLayer);
 
   setVegetationSprite: (sprite) =>
     @vegetationSprite = sprite;
 
-  removeVegetationSprite: () =>
+  removeVegetationSprite: (mapLayer) =>
+    mapLayer.layer.removeChild(@vegetationSprite);
     @returnSprite(@vegetationSprite);
     @vegetationSprite = null;
 
@@ -17,7 +18,8 @@ class Game.Field
     @floraSprite = sprite;
 
   removeFloraSprite: () =>
-    @returnSprite(@floraSprite) if @floraSprite?;
+    @vegetationSprite.removeChild(@floraSprite);
+    @returnSprite(@floraSprite);
     @floraSprite = null;
 
   returnSprite: (sprite) =>

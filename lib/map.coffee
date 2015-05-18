@@ -28,9 +28,9 @@ class Game.Map
 
   removeFields: (startX, endX, startY, endY) =>
     @data.eachField startX, endX, startY, endY, (rx, ry) =>
-      @fields.remove (field) ->
+      @fields.remove (field) =>
         if field.rx == rx && field.ry == ry
-          field.clear();
+          field.clear(@mapLayer);
           return true;
 
   createField: (rx, ry, data) =>
