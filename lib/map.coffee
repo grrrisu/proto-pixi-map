@@ -38,9 +38,8 @@ class Game.Map
       return field.rx == rx && field.ry == ry;
 
     unless already_created
-      field = new Game.Field(rx, ry);
+      field = @mapLayer.setField(rx, ry, data, @fieldSize);
       @fields.unshift(field);
-      @mapLayer.renderField(rx, ry, data, @fieldSize, field);
 
   mapMovedTo: (ax, ay) =>
     @mapLayer.mapMovedTo(ax, ay);

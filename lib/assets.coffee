@@ -12,9 +12,9 @@ class Game.Assets
       "vegetation_8": "/images/8_forest@2x.png",
       "vegetation_13": "/images/13_forest@2x.png",
 
-      "banana-1": "/images/banana-1.png",
-      "banana-2": "/images/banana-2.png",
-      "banana-3": "/images/banana-3.png",
+      "banana_1": "/images/banana-1@2x.png",
+      "banana_2": "/images/banana-2@2x.png",
+      "banana_3": "/images/banana-3@2x.png",
 
       "rabbit": "/images/rabbit.png",
       "gazelle": "/images/gazelle.png",
@@ -32,20 +32,21 @@ class Game.Assets
     loader.load();
 
   getVegetationSprite: (type) =>
-    @_getSprite(@assets["vegetation_#{type}"]);
+    @_getSprite("vegetation_#{type}");
 
   getFloraSprite: (type) =>
-    @_getSprite(@assets[type]);
+    @_getSprite(type);
 
   getFaunaSprite: (type) =>
-    @getFaunaSprite(type);
+    @_getSprite(type);
 
   returnSprite: (image, sprite) =>
     @pool.returnSprite(image, sprite);
 
   # private
 
-  _getSprite: (image) =>
+  _getSprite: (type) =>
+    image = @assets[type]
     if image?
       @pool.getSprite(image);
     else

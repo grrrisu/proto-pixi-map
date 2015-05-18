@@ -56,7 +56,7 @@ class Game.MapData
     @dataSets.push(data);
 
   getVegetation: (rx, ry) =>
-    field = @_getField(rx, ry)
+    field = @getField(rx, ry)
     if field?
       return field.vegetation;
 
