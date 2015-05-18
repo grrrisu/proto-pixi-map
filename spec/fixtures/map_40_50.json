@@ -498,7 +498,7 @@
         "x": 25,
         "y": 55,
         "vegetation": {
-          "type": 1,
+          "type": 5,
           "size": 250
         }
       },
