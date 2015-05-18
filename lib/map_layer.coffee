@@ -12,6 +12,7 @@ class Game.MapLayer
     field = new Game.Field(x, y);
     vegetationSprite = @setVegetation(x, y, data.vegetation, fieldSize, field);
     @setFlora(data.flora, vegetationSprite, field) if data.flora?;
+    @setFauna(data.fauna, vegetationSprite, field) if data.fauna?;
     return field;
 
   setVegetation: (x, y, vegetation, fieldSize, field) =>
@@ -24,6 +25,11 @@ class Game.MapLayer
   setFlora: (data, parent, field) =>
     sprite = Game.main.assets.getFloraSprite(data.type);
     field.setFloraSprite(sprite);
+    parent.addChild(sprite);
+
+  setFauna: (data, parent, field) =>
+    sprite = Game.main.assets.getFaunaSprite(data.type);
+    field.setFaunaSprite(sprite);
     parent.addChild(sprite);
 
   mapMovedTo: (ax, ay) =>

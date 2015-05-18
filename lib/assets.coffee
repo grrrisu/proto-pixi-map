@@ -16,11 +16,11 @@ class Game.Assets
       "banana_2": "/images/banana-2@2x.png",
       "banana_3": "/images/banana-3@2x.png",
 
-      "rabbit": "/images/rabbit.png",
-      "gazelle": "/images/gazelle.png",
-      "mammoth": "/images/meat.png",
-      "hyena": "/images/hyena.png",
-      "leopard": "/images/leopard.png"
+      "rabbit": "/images/rabbit@2x.png",
+      "gazelle": "/images/gazelle@2x.png",
+      "mammoth": "/images/meat@2x.png",
+      "hyena": "/images/hyena@2x.png",
+      "leopard": "/images/leopard@2x.png"
     }
     images = Object.values(@assets);
     @pool = new Game.SpritePool(images);
