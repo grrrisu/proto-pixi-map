@@ -43,8 +43,8 @@ class Game.Map
 
   mapMovedTo: (ax, ay) =>
     @mapLayer.mapMovedTo(ax, ay);
-    @data.mapMovedTo ax, ay, @fieldSize, (deltaX, deltaY) =>
-      console.log("rx #{@data.rx} dx #{deltaX}");
+    position = @toRelativePosition(ax, ay);
+    @data.mapMovedTo position[0], position[1], (deltaX, deltaY) =>
       if deltaX > 0 # move to the right
         @createFields(@fieldWidth - deltaX, @fieldWidth, 0, @fieldHeight);
         @removeFields(0 - deltaX, 0, 0, @fieldHeight);
@@ -60,3 +60,8 @@ class Game.Map
 
   center: () =>
     # move to headquarter position or init rx, ry for admin
+
+  toRelativePosition: (ax, ay) =>
+    rx = Math.floor(-ax / @fieldSize);
+    ry = Math.floor(-ay / @fieldSize);
+    return [rx, ry];

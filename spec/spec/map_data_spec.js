@@ -143,7 +143,7 @@ describe("MapData", function() {
 
     it("should set new position", function(){
       spyOn(mapData, "setDataPosition");
-      mapData.mapMovedTo(-43, -80, 15, callback);
+      mapData.mapMovedTo(2, 5, callback);
       expect(mapData.setDataPosition).toHaveBeenCalledWith(2, 5);
     });
 
@@ -155,7 +155,7 @@ describe("MapData", function() {
       spyOn(mapData, "loadData");
 
       expect(mapData.dataSets.length).toEqual(2);
-      mapData.mapMovedTo(-43, -80, 15, callback);
+      mapData.mapMovedTo(2, 5, callback);
       expect(mapData.dataSets.length).toEqual(0);
     });
 
@@ -163,7 +163,7 @@ describe("MapData", function() {
       spyOn(mapData, "isDataSetLoaded").and.returnValue(true);
       updateDataCall.and.callThrough();
 
-      mapData.mapMovedTo(-43, -80, 15, callback);
+      mapData.mapMovedTo(2, 5, callback);
 
       expect(mapData.isDataSetLoaded).toHaveBeenCalled();
 
@@ -179,7 +179,7 @@ describe("MapData", function() {
     });
 
     it("should call parent with delta", function() {
-      mapData.mapMovedTo(-43, -80, 15, callback);
+      mapData.mapMovedTo(2, 5, callback);
       expect(callback).toHaveBeenCalledWith(-3, 0);
     });
 
