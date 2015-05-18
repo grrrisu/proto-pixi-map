@@ -23,8 +23,8 @@ class Game.Map
 
   createFields: (startX, endX, startY, endY) =>
     @data.eachField startX, endX, startY, endY, (rx, ry) =>
-      vegetation = @data.getVegetation(rx, ry);
-      @createField(rx, ry, vegetation) if vegetation?;
+      data = @data.getField(rx, ry);
+      @createField(rx, ry, data) if data?;
 
   removeFields: (startX, endX, startY, endY) =>
     @data.eachField startX, endX, startY, endY, (rx, ry) =>
@@ -33,14 +33,14 @@ class Game.Map
           field.clear();
           return true;
 
-  createField: (rx, ry, vegetation) =>
+  createField: (rx, ry, data) =>
     already_created = @fields.any (field) =>
       return field.rx == rx && field.ry == ry;
 
     unless already_created
       field = new Game.Field(rx, ry);
       @fields.unshift(field);
-      @mapLayer.setVegetation(rx, ry, vegetation, @fieldSize, field);
+      @mapLayer.renderField(rx, ry, data, @fieldSize, field);
 
   mapMovedTo: (ax, ay) =>
     @mapLayer.mapMovedTo(ax, ay);

@@ -81,14 +81,14 @@ class Game.MapData
       for x in [startX...endX]
         callback(@rx + x, @ry + y);
 
-  # private
-
-  _getField: (rx, ry) ->
+  getField: (rx, ry) ->
     dataSet = @_getDataSet(rx, ry);
     if dataSet?
       return dataSet['view'][ry - dataSet.y][rx - dataSet.x];
     else
       console.log("no data set for #{rx}, #{ry}");
+
+  # private
 
   _getDataSet: (rx, ry) =>
     @dataSets.find (dataSet) ->

@@ -8,6 +8,9 @@ class Game.MapLayer
     @outsetX = (width % fieldSize / 2).round();
     @outsetY = (height % fieldSize / 2).round();
 
+  renderField: (x, y, data, fieldSize, field) =>
+    @setVegetation(x, y, data.vegetation, fieldSize, field);
+
   setVegetation: (x, y, vegetation, fieldSize, field) =>
     sprite = Game.main.assets.getVegetationSprite(vegetation.type)
     sprite.position.x = x * (fieldSize);
