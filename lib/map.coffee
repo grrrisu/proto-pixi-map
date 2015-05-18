@@ -19,14 +19,12 @@ class Game.Map
       callback();
 
   create: () =>
-    console.log("x #{@data.rx} y #{@data.ry}");
     @createFields(0, @fieldWidth, 0, @fieldHeight);
 
   createFields: (startX, endX, startY, endY) =>
     @data.eachField startX, endX, startY, endY, (rx, ry) =>
       vegetation = @data.getVegetation(rx, ry);
       @createField(rx, ry, vegetation) if vegetation?;
-
 
   removeFields: (startX, endX, startY, endY) =>
     @data.eachField startX, endX, startY, endY, (rx, ry) =>

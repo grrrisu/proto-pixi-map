@@ -4,6 +4,7 @@ class Game.Field
 
   clear: () =>
     @removeVegetationSprite();
+    @removeFloraSprite();
 
   setVegetationSprite: (sprite) =>
     @vegetationSprite = sprite;
@@ -11,6 +12,13 @@ class Game.Field
   removeVegetationSprite: () =>
     @returnSprite(@vegetationSprite);
     @vegetationSprite = null;
+
+  setFloraSprite: (sprite) =>
+    @floraSprite = sprite;
+
+  removeFloraSprite: () =>
+    @returnSprite(@floraSprite) if @floraSprite?;
+    @floraSprite = null;
 
   returnSprite: (sprite) =>
     image = sprite.texture.baseTexture.imageUrl;

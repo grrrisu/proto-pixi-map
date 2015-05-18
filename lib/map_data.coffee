@@ -58,7 +58,7 @@ class Game.MapData
   getVegetation: (rx, ry) =>
     field = @_getField(rx, ry)
     if field?
-      return field['vegetation'];
+      return field.vegetation;
 
   mapMovedTo: (ax, ay, fieldSize, callback) =>
     rx = Math.floor(-ax / fieldSize);
