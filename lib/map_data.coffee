@@ -4,6 +4,7 @@ class Game.MapData
     @dataSets = [];
 
   initMap: (fieldWidth, fieldHeight, callback) =>
+    @setDataDimensions(fieldWidth, fieldHeight);
     Game.main.apiCaller.get '/spec/fixtures/init_map.json', (data) =>
       data = JSON.parse(data);
       console.log("hx #{data.headquarter.x} hy #hy #{data.headquarter.y}")
@@ -12,9 +13,13 @@ class Game.MapData
       @setDataPosition(rx, ry);
       @setupData(callback);
 
+  setDataDimensions: (fieldWidth, fieldHeight) =>
+    @dataWidth  = Math.round(fieldWidth / 10);
+    @dataHeight = Math.round(fieldHeight / 10);
+
   setupData: (callback) =>
     @dataLoadedCallback = callback;
-    @dataToLoad = 9; # initial 3 x 3
+    @dataToLoad = (@dataWidth + 2) * (@dataHeight + 2);
     @loadData(@setupDataLoaded);
 
   setupDataLoaded: () =>
@@ -23,7 +28,10 @@ class Game.MapData
       @dataLoadedCallback();
 
   currentView: () =>
-    return [[@dataX - 10, @dataX + 20], [@dataY - 10, @dataY + 20]];
+    return [
+      [@dataX - 10, @dataX + (@dataWidth + 1) * 10 - 1],
+      [@dataY - 10, @dataY + (@dataHeight + 1) * 10 - 1]
+    ];
 
   updateData: () =>
     @removeData();
@@ -31,11 +39,14 @@ class Game.MapData
 
   removeData: () =>
     @dataSets.remove (dataSet) =>
-      return dataSet.x < @dataX - 10 || dataSet.x2 > @dataX + 20 || dataSet.y < @dataY - 10 || dataSet.y2 > @dataY + 20;
+      return dataSet.x < @dataX - 10 ||
+             dataSet.x2 > @dataX + (@dataWidth + 1) * 10 ||
+             dataSet.y < @dataY - 10 ||
+             dataSet.y2 > @dataY + (@dataHeight + 1) * 10;
 
   loadData: (callback) =>
-    for x in [0, 10, -10]
-      for y in [0, 10, -10]
+    for x in [-10..(@dataWidth * 10)] by 10
+      for y in [-10..(@dataHeight * 10)] by 10
         px = x + @dataX;
         py = y + @dataY;
 
@@ -60,9 +71,7 @@ class Game.MapData
     if field?
       return field.vegetation;
 
-  mapMovedTo: (ax, ay, fieldSize, callback) =>
-    rx = Math.floor(-ax / fieldSize);
-    ry = Math.floor(-ay / fieldSize);
+  mapMovedTo: (rx, ry, callback) =>
     if @rx != rx || @ry != ry
       deltaX = rx - @rx;
       deltaY = ry - @ry;

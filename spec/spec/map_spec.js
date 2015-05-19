@@ -19,5 +19,4 @@ describe("Map", function() {
 
   });
 
-
 });

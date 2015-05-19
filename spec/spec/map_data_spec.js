@@ -71,12 +71,21 @@ describe("MapData", function() {
       expect(mapData.dataY).toEqual(50);
     });
 
+    it("should get current view", function() {
+      mapData.setDataPosition(33, 47);
+      mapData.setDataDimensions(33, 11);
+      currentView = mapData.currentView();
+      expect(currentView[0]).toEqual([20, 69]);
+      expect(currentView[1]).toEqual([40, 69]);
+    });
+
   });
 
   describe("with position", function() {
 
     beforeEach(function() {
       mapData.setDataPosition(33, 47);
+      mapData.setDataDimensions(11, 11);
     });
 
     it("should not remove already loaded data", function(){
@@ -136,6 +145,7 @@ describe("MapData", function() {
   describe("move map", function() {
 
     beforeEach(function() {
+      mapData.setDataDimensions(11, 11);
       mapData.setDataPosition(5, 5); // position before moving
       callback = jasmine.createSpy('mapCallback');
       updateDataCall = spyOn(mapData, "updateData");
