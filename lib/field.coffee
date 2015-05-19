@@ -5,6 +5,7 @@ class Game.Field
   clear: (mapLayer) =>
     @removeFloraSprite() if @floraSprite?;
     @removeFaunaSprite() if @faunaSprite?;
+    @removePawnSprite()  if @pawnSprite?;
     @removeVegetationSprite(mapLayer);
 
   setVegetationSprite: (sprite) =>
@@ -19,17 +20,29 @@ class Game.Field
     @floraSprite = sprite;
 
   removeFloraSprite: () =>
-    @vegetationSprite.removeChild(@floraSprite);
-    @returnSprite(@floraSprite);
+    @remove_from_vegetation(@floraSprite);
     @floraSprite = null;
 
   setFaunaSprite: (sprite) =>
     @faunaSprite = sprite;
 
   removeFaunaSprite: () =>
-    @vegetationSprite.removeChild(@faunaSprite);
-    @returnSprite(@faunaSprite);
+    @remove_from_vegetation(@faunaSprite);
     @faunaSprite = null;
+
+  setPawnSprite: (sprite) =>
+    @pawnSprite = sprite;
+
+  removePawnSprite: () =>
+    @remove_from_vegetation(@pawnSprite);
+    @pawnSprite = null;
+
+  # private
+
+  remove_from_vegetation: (sprite) =>
+    @vegetationSprite.removeChild(sprite);
+    @returnSprite(sprite);
+
 
   returnSprite: (sprite) =>
     image = sprite.texture.baseTexture.imageUrl;

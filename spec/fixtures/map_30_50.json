@@ -500,7 +500,8 @@
         "vegetation": {
           "type": 1,
           "size": 250
-        }
+        },
+        "pawn": "headquarter"
       },
       {
         "x": 26,
@@ -508,7 +509,8 @@
         "vegetation": {
           "type": 5,
           "size": 250
-        }
+        },
+        "pawn": "pawn"
       },
       {
         "x": 27,

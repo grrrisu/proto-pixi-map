@@ -20,7 +20,10 @@ class Game.Assets
       "gazelle": "/images/gazelle@2x.png",
       "mammoth": "/images/meat@2x.png",
       "hyena": "/images/hyena@2x.png",
-      "leopard": "/images/leopard@2x.png"
+      "leopard": "/images/leopard@2x.png",
+
+      "headquarter": "/images/Raratonga_Mask.gif",
+      "pawn": "/images/caveman.png"
     }
     images = Object.values(@assets);
     @pool = new Game.SpritePool(images);
@@ -32,20 +35,23 @@ class Game.Assets
     loader.load();
 
   getVegetationSprite: (type) =>
-    @_getSprite("vegetation_#{type}");
+    @getSprite("vegetation_#{type}");
 
   getFloraSprite: (type) =>
-    @_getSprite(type);
+    @getSprite(type);
 
   getFaunaSprite: (type) =>
-    @_getSprite(type);
+    @getSprite(type);
+
+  getPawnSprite: (type) =>
+    @getSprite(type);
 
   returnSprite: (image, sprite) =>
     @pool.returnSprite(image, sprite);
 
   # private
 
-  _getSprite: (type) =>
+  getSprite: (type) =>
     image = @assets[type]
     if image?
       @pool.getSprite(image);

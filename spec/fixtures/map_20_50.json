@@ -581,7 +581,8 @@
         "vegetation": {
           "type": 13,
           "size": 650
-        }
+        },
+        "pawn": "pawn"
       },
       {
         "x": 35,

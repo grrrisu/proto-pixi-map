@@ -13,6 +13,7 @@ class Game.MapLayer
     vegetationSprite = @setVegetation(x, y, data.vegetation, fieldSize, field);
     @setFlora(data.flora, vegetationSprite, field) if data.flora?;
     @setFauna(data.fauna, vegetationSprite, field) if data.fauna?;
+    @setPawn(data.pawn, vegetationSprite, field) if data.pawn?;
     return field;
 
   setVegetation: (x, y, vegetation, fieldSize, field) =>
@@ -30,6 +31,11 @@ class Game.MapLayer
   setFauna: (data, parent, field) =>
     sprite = Game.main.assets.getFaunaSprite(data.type);
     field.setFaunaSprite(sprite);
+    parent.addChild(sprite);
+
+  setPawn: (data, parent, field) =>
+    sprite = Game.main.assets.getPawnSprite(data);
+    field.setPawnSprite(sprite);
     parent.addChild(sprite);
 
   mapMovedTo: (ax, ay) =>
