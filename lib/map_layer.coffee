@@ -5,6 +5,7 @@ class Game.MapLayer
     stage.addChild(@layer);
 
   setOutset: (width, height, fieldSize) =>
+    @fieldSize = fieldSize;
     @outsetX = (width % fieldSize / 2).round();
     @outsetY = (height % fieldSize / 2).round();
 
@@ -26,17 +27,25 @@ class Game.MapLayer
   setFlora: (data, parent, field) =>
     sprite = Game.main.assets.getFloraSprite(data.type);
     field.setFloraSprite(sprite);
+    @centerSprite(sprite);
     parent.addChild(sprite);
 
   setFauna: (data, parent, field) =>
     sprite = Game.main.assets.getFaunaSprite(data.type);
     field.setFaunaSprite(sprite);
+    @centerSprite(sprite);
     parent.addChild(sprite);
 
   setPawn: (data, parent, field) =>
     sprite = Game.main.assets.getPawnSprite(data);
     field.setPawnSprite(sprite);
+    @centerSprite(sprite);
     parent.addChild(sprite);
+
+  centerSprite: (sprite) =>
+    resolution = sprite.texture.baseTexture.resolution;
+    sprite.position.x = (@fieldSize - sprite.width / resolution) / 2;
+    sprite.position.y = (@fieldSize - sprite.height / resolution) / 2;
 
   mapMovedTo: (ax, ay) =>
     @ax = ax;
