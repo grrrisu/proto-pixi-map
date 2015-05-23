@@ -96,6 +96,7 @@ class Game.MapData
       return dataSet['view'][ry - dataSet.y][rx - dataSet.x];
     else
       console.log("no data set for #{rx}, #{ry}");
+      return null;
 
   # private
 

@@ -6,34 +6,32 @@ class Game.Map
     @data         = new Game.MapData();
     @fields       = [];
 
-    @origFieldSize   = @fieldSize = options['fieldSize'] + 1; # +1 border
+    @fieldSize = options['fieldSize'] + 1; # +1 border
     @viewportWidth  = options['width'];
     @viewportHeight = options['height'];
-    @setDimensions();
+    @setDimensions(@fieldSize);
     @mapLayer.setOutset(options['width'], options['height'], @fieldSize);
 
-  setDimensions: () =>
-    @fieldWidth  = Math.floor(@viewportWidth  / @fieldSize) + 2;
-    @fieldHeight = Math.floor(@viewportHeight / @fieldSize) + 2;
+  setDimensions: (fieldSize) =>
+    @fieldWidth  = Math.floor(@viewportWidth  / fieldSize) + 2;
+    @fieldHeight = Math.floor(@viewportHeight / fieldSize) + 2;
 
   init: (callback) =>
     @data.initMap @fieldWidth, @fieldHeight, () =>
-      @moveLayer();
+      @moveLayer(@fieldSize);
       callback();
 
-  moveLayer: () =>
-    x = -(@data.rx + 1) * @fieldSize + @mapLayer.outsetX; # +1 begin outside of viewport
-    y = -(@data.ry + 1) * @fieldSize + @mapLayer.outsetY; # +1 begin outside of viewport
+  moveLayer: (fieldSize) =>
+    x = -(@data.rx + 1) * fieldSize + @mapLayer.outsetX; # +1 begin outside of viewport
+    y = -(@data.ry + 1) * fieldSize + @mapLayer.outsetY; # +1 begin outside of viewport
     @mapLayer.mapMovedTo(x, y);
 
   create: () =>
     @createFields(0, @fieldWidth, 0, @fieldHeight);
 
   createFields: (startX, endX, startY, endY) =>
-    console.log(endX);
     @data.eachField startX, endX, startY, endY, (rx, ry) =>
       data = @data.getField(rx, ry);
-      console.log("rx #{rx} ry #{ry} #{data}");
       @createField(rx, ry, data) if data?;
 
   removeFields: (startX, endX, startY, endY) =>
@@ -72,15 +70,15 @@ class Game.Map
     # move to headquarter position or init rx, ry for admin
 
   scale: (n) =>
-    @fieldSize   = @origFieldSize * n;
-    @setDimensions();
-    @mapLayer.layer.scale.x = n;
-    @mapLayer.layer.scale.y = n;
-    @moveLayer();
-    @fields.each (field) =>
-      field.clear;
+    @mapLayer.scale(n);
+    @setDimensions(@fieldSize * n);
+    @moveLayer(@fieldSize * n);
     @create();
 
+  clearFields: () =>
+    @fields.each (field) =>
+      field.clear(@mapLayer);
+    @fields = [];
 
   toRelativePosition: (ax, ay) =>
     rx = Math.floor(-ax / @fieldSize);
