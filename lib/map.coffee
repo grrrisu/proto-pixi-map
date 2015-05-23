@@ -6,24 +6,34 @@ class Game.Map
     @data         = new Game.MapData();
     @fields       = [];
 
-    @fieldSize   = options['fieldSize'] + 1; # +1 border
-    @fieldWidth  = Math.floor(options['width'] / @fieldSize) + 2;
-    @fieldHeight = Math.floor(options['height'] / @fieldSize) + 2;
+    @origFieldSize   = @fieldSize = options['fieldSize'] + 1; # +1 border
+    @viewportWidth  = options['width'];
+    @viewportHeight = options['height'];
+    @setDimensions();
     @mapLayer.setOutset(options['width'], options['height'], @fieldSize);
+
+  setDimensions: () =>
+    @fieldWidth  = Math.floor(@viewportWidth  / @fieldSize) + 2;
+    @fieldHeight = Math.floor(@viewportHeight / @fieldSize) + 2;
 
   init: (callback) =>
     @data.initMap @fieldWidth, @fieldHeight, () =>
-      x = -(@data.rx + 1) * @fieldSize + @mapLayer.outsetX; # +1 begin outside of viewport
-      y = -(@data.ry + 1) * @fieldSize + @mapLayer.outsetY; # +1 begin outside of viewport
-      @mapLayer.mapMovedTo(x, y);
+      @moveLayer();
       callback();
+
+  moveLayer: () =>
+    x = -(@data.rx + 1) * @fieldSize + @mapLayer.outsetX; # +1 begin outside of viewport
+    y = -(@data.ry + 1) * @fieldSize + @mapLayer.outsetY; # +1 begin outside of viewport
+    @mapLayer.mapMovedTo(x, y);
 
   create: () =>
     @createFields(0, @fieldWidth, 0, @fieldHeight);
 
   createFields: (startX, endX, startY, endY) =>
+    console.log(endX);
     @data.eachField startX, endX, startY, endY, (rx, ry) =>
       data = @data.getField(rx, ry);
+      console.log("rx #{rx} ry #{ry} #{data}");
       @createField(rx, ry, data) if data?;
 
   removeFields: (startX, endX, startY, endY) =>
@@ -60,6 +70,17 @@ class Game.Map
 
   center: () =>
     # move to headquarter position or init rx, ry for admin
+
+  scale: (n) =>
+    @fieldSize   = @origFieldSize * n;
+    @setDimensions();
+    @mapLayer.layer.scale.x = n;
+    @mapLayer.layer.scale.y = n;
+    @moveLayer();
+    @fields.each (field) =>
+      field.clear;
+    @create();
+
 
   toRelativePosition: (ax, ay) =>
     rx = Math.floor(-ax / @fieldSize);
