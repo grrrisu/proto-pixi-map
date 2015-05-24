@@ -18,13 +18,15 @@ class Game.Map
 
   init: (callback) =>
     @data.initMap @fieldWidth, @fieldHeight, () =>
-      @moveLayer(@fieldSize);
+      @move(@fieldSize, 1.0);
       callback();
 
-  moveLayer: (fieldSize) =>
-    x = -(@data.rx + 1) * fieldSize + @mapLayer.outsetX; # +1 begin outside of viewport
-    y = -(@data.ry + 1) * fieldSize + @mapLayer.outsetY; # +1 begin outside of viewport
-    @mapLayer.mapMovedTo(x, y);
+  move: (fieldSize, scale) =>
+    centerWidth  = Math.ceil(@viewportWidth - @viewportWidth * scale) / 2
+    centerHeight = Math.ceil(@viewportHeight - @viewportHeight * scale) / 2
+    ax = -(@data.rx + 1) * fieldSize + centerWidth + @mapLayer.outsetX; # +1 begin outside of viewport
+    ay = -(@data.ry + 1) * fieldSize + centerHeight + @mapLayer.outsetY; # +1 begin outside of viewport
+    @mapLayer.mapMovedTo(ax, ay);
 
   create: () =>
     @createFields(0, @fieldWidth, 0, @fieldHeight);
@@ -72,7 +74,7 @@ class Game.Map
   scale: (n) =>
     @mapLayer.scale(n);
     @setDimensions(@fieldSize * n);
-    @moveLayer(@fieldSize * n);
+    @move(@fieldSize * n, n);
     @create();
 
   clearFields: () =>
