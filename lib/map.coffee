@@ -22,10 +22,11 @@ class Game.Map
       callback();
 
   move: (fieldSize, scale) =>
-    centerWidth  = Math.ceil(@viewportWidth - @viewportWidth * scale) / 2
-    centerHeight = Math.ceil(@viewportHeight - @viewportHeight * scale) / 2
-    ax = -(@data.rx + 1) * fieldSize + centerWidth + @mapLayer.outsetX; # +1 begin outside of viewport
-    ay = -(@data.ry + 1) * fieldSize + centerHeight + @mapLayer.outsetY; # +1 begin outside of viewport
+    rx = @data.rx - Math.round((@fieldWidth - @fieldWidth * scale) / 2)
+    ry = @data.ry - Math.round((@fieldHeight - @fieldHeight * scale) / 2)
+    @data.setDataPosition(rx, ry);
+    ax = -(@data.rx + 1) * fieldSize + @mapLayer.outsetX; # +1 begin outside of viewport
+    ay = -(@data.ry + 1) * fieldSize + @mapLayer.outsetY; # +1 begin outside of viewport
     @mapLayer.mapMovedTo(ax, ay);
 
   create: () =>
