@@ -19,6 +19,7 @@
     <script src="javascripts/namespace.js"></script>
     <script src="javascripts/stage.js"></script>
     <script src="javascripts/controllers/api_caller.js"></script>
+    <script src="javascripts/controllers/scale_controller.js"></script>
     <script src="javascripts/sprite_pool.js"></script>
     <script src="javascripts/assets.js"></script>
     <script src="javascripts/field.js"></script>
@@ -33,6 +34,9 @@
   <div align="center">
       <div style="width: 55px; height: 1px; border: 1px solid #fff;"></div>
       <canvas id="map" width="750" height="520" style="width: 750px; height: 520px"></canvas>
+
+      <div id="zoom-in">ZoomIn</div>
+      <div id="zoom-out">ZoomOut</div>
     </div>
   <script>
     function init(){

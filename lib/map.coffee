@@ -1,10 +1,11 @@
 class Game.Map
 
   constructor: (stage, options) ->
-    @mapLayer     = new Game.MapLayer(stage);
-    @drag_handler = new Game.MapDragHandler(@mapLayer.layer, this);
-    @data         = new Game.MapData();
-    @fields       = [];
+    @mapLayer         = new Game.MapLayer(stage);
+    @drag_handler     = new Game.MapDragHandler(@mapLayer.layer, this);
+    @scaleController  = new Game.ScaleController(this);
+    @data             = new Game.MapData();
+    @fields           = [];
 
     @fieldSize = options['fieldSize'] + 1; # +1 border
     @viewportWidth  = options['width'];
