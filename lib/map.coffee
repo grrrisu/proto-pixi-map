@@ -18,16 +18,19 @@ class Game.Map
 
   init: (callback) =>
     @data.initMap @fieldWidth, @fieldHeight, () =>
-      @move(@fieldSize, 1.0);
+      @move(@fieldSize, @fieldWidth, @fieldHeight);
       callback();
 
-  move: (fieldSize, scale) =>
-    rx = @data.rx - Math.round((@fieldWidth - @fieldWidth * scale) / 2)
-    ry = @data.ry - Math.round((@fieldHeight - @fieldHeight * scale) / 2)
-    @data.setDataPosition(rx, ry);
+  move: (fieldSize, oldWidth, oldHeight) =>
+    @centerDataPosition(oldWidth, oldHeight);
     ax = -(@data.rx + 1) * fieldSize + @mapLayer.outsetX; # +1 begin outside of viewport
     ay = -(@data.ry + 1) * fieldSize + @mapLayer.outsetY; # +1 begin outside of viewport
     @mapLayer.mapMovedTo(ax, ay);
+
+  centerDataPosition: (oldWidth, oldHeight) =>
+    cx = @data.rx + Math.floor(oldWidth / 2)
+    cy = @data.ry + Math.floor(oldHeight / 2)
+    @data.centerPosition(cx, cy, @fieldWidth, @fieldHeight);
 
   create: () =>
     @createFields(0, @fieldWidth, 0, @fieldHeight);
@@ -72,10 +75,13 @@ class Game.Map
   center: () =>
     # move to headquarter position or init rx, ry for admin
 
-  scale: (n) =>
-    @mapLayer.scale(n);
-    @setDimensions(@fieldSize * n);
-    @move(@fieldSize * n, n);
+  scale: (newScale) =>
+    oldWidth = @fieldWidth;
+    oldHeight = @fieldHeight;
+    @mapLayer.scale(newScale);
+    @setDimensions(@fieldSize * newScale);
+    @mapLayer.setOutset(@viewportWidth, @viewportHeight, @fieldSize * newScale);
+    @move(@fieldSize * newScale, oldWidth, oldHeight);
     @create();
 
   clearFields: () =>

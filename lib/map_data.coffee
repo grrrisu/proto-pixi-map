@@ -8,10 +8,13 @@ class Game.MapData
     Game.main.apiCaller.get '/spec/fixtures/init_map.json', (data) =>
       data = JSON.parse(data);
       console.log("hx #{data.headquarter.x} hy #hy #{data.headquarter.y}")
-      rx = data.headquarter.x - Math.floor(fieldWidth / 2);
-      ry = data.headquarter.y - Math.floor(fieldHeight / 2);
-      @setDataPosition(rx, ry);
+      @centerPosition(data.headquarter.x, data.headquarter.y, fieldWidth, fieldHeight);
       @setupData(callback);
+
+  centerPosition: (cx, cy, fieldWidth, fieldHeight) =>
+    rx = cx - Math.floor(fieldWidth / 2);
+    ry = cy - Math.floor(fieldHeight / 2);
+    @setDataPosition(rx, ry);
 
   setDataDimensions: (fieldWidth, fieldHeight) =>
     @dataWidth  = Math.round(fieldWidth / 10);

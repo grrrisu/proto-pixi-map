@@ -31,6 +31,7 @@ Todo
 * border
 * move own pawn
 * highlight
+* update single field(s)
 * integrate dawning
 
 Tests
