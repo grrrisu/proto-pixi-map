@@ -10,19 +10,25 @@ class Game.Map
     @fieldSize = options['fieldSize'] + 1; # +1 border
     @viewportWidth  = options['width'];
     @viewportHeight = options['height'];
+    @scale          = 1.0
     @setDimensions(@fieldSize);
-    @mapLayer.setOutset(@viewportWidth, @viewportHeight, @fieldSize);
 
   setDimensions: (fieldSize) =>
     @fieldWidth  = Math.floor(@viewportWidth  / fieldSize) + 2;
     @fieldHeight = Math.floor(@viewportHeight / fieldSize) + 2;
+    @data.setDataDimensions(@fieldWidth, @fieldHeight)
 
   init: (callback) =>
-    @data.initMap @fieldWidth, @fieldHeight, () =>
-      @move(@fieldSize, @fieldWidth, @fieldHeight);
+    @data.initMap (centerX, centerY) =>
+      @move(centerX, centerY);
       callback();
 
-  move: (fieldSize, oldWidth, oldHeight) =>
+  move: (centerX, centerY) =>
+    ax = -(0.5 + centerX) * @fieldSize * @scale + @viewportWidth;
+    ay = -(0.5 + centerY) * @fieldSize * @scale + @viewportHeight;
+    @mapLayer.mapMovedTo(ax, ay)
+
+  move_old: (fieldSize, oldWidth, oldHeight) =>
     @centerDataPosition(oldWidth, oldHeight);
     @mapLayer.setOutset(@viewportWidth, @viewportHeight, fieldSize);
     ax = -(@data.rx + 1) * fieldSize + @mapLayer.outsetX; # +1 begin outside of viewport

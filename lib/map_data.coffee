@@ -3,12 +3,13 @@ class Game.MapData
   constructor: () ->
     @dataSets = [];
 
-  initMap: (fieldWidth, fieldHeight, callback) =>
-    @setDataDimensions(fieldWidth, fieldHeight);
+  initMap: (callback) =>
     Game.main.apiCaller.get '/spec/fixtures/init_map.json', (data) =>
       data = JSON.parse(data);
       console.log("hx #{data.headquarter.x} hy #hy #{data.headquarter.y}")
-      @centerPosition(data.headquarter.x, data.headquarter.y, fieldWidth, fieldHeight);
+      @centerX = data.headquarter.x
+      @centerY = data.headquarter.y
+      #@centerPosition(data.headquarter.x, data.headquarter.y, fieldWidth, fieldHeight);
       @setupData(callback);
 
   centerPosition: (cx, cy, fieldWidth, fieldHeight) =>
@@ -28,7 +29,7 @@ class Game.MapData
   setupDataLoaded: () =>
     @dataToLoad -= 1;
     if @dataToLoad == 0
-      @dataLoadedCallback();
+      @dataLoadedCallback(@centerX, @centerY);
 
   currentView: () =>
     return [
