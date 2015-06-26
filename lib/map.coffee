@@ -7,7 +7,7 @@ class Game.Map
     @data             = new Game.MapData();
     @fields           = [];
 
-    @fieldSize = options['fieldSize'] + 1; # +1 border
+    @fieldSize      = options['fieldSize'] + 1; # +1 border
     @viewportWidth  = options['width'];
     @viewportHeight = options['height'];
     @scale          = 1.0
@@ -20,6 +20,7 @@ class Game.Map
 
   init: (callback) =>
     @data.initMap (centerX, centerY) =>
+      console.log('after data init')
       @move(centerX, centerY);
       callback();
 
@@ -28,19 +29,13 @@ class Game.Map
     ay = -(0.5 + centerY) * @fieldSize * @scale + @viewportHeight;
     @mapLayer.mapMovedTo(ax, ay)
 
-  move_old: (fieldSize, oldWidth, oldHeight) =>
-    @centerDataPosition(oldWidth, oldHeight);
-    @mapLayer.setOutset(@viewportWidth, @viewportHeight, fieldSize);
-    ax = -(@data.rx + 1) * fieldSize + @mapLayer.outsetX; # +1 begin outside of viewport
-    ay = -(@data.ry + 1) * fieldSize + @mapLayer.outsetY; # +1 begin outside of viewport
-    @mapLayer.mapMovedTo(ax, ay);
-
   centerDataPosition: (oldWidth, oldHeight) =>
     cx = @data.rx + Math.floor(oldWidth / 2)
     cy = @data.ry + Math.floor(oldHeight / 2)
     @data.centerPosition(cx, cy, @fieldWidth, @fieldHeight);
 
   create: () =>
+    console.log('create')
     @createFields(0, @fieldWidth, 0, @fieldHeight);
 
   createFields: (startX, endX, startY, endY) =>
