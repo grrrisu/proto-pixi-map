@@ -14,25 +14,32 @@ class Game.Map
     @setDimensions(@fieldSize);
 
   setDimensions: (fieldSize) =>
-    @fieldWidth  = Math.floor(@viewportWidth  / fieldSize) + 2;
-    @fieldHeight = Math.floor(@viewportHeight / fieldSize) + 2;
+    @fieldWidth  = Math.floor(@viewportWidth * @scale / fieldSize) + 2;
+    @fieldHeight = Math.floor(@viewportHeight * @scale / fieldSize) + 2;
     @data.setDataDimensions(@fieldWidth, @fieldHeight)
 
   init: (callback) =>
     @data.initMap (centerX, centerY) =>
       console.log('after data init')
-      @move(centerX, centerY);
-      callback();
 
-  move: (centerX, centerY) =>
+      aposition = @centerToAbsolutePosition(centerX, centerY);
+      console.log(aposition);
+      rposition = @toRelativePosition(aposition[0], aposition[1]);
+      @mapLayer.mapMovedTo(aposition[0], aposition[1]);
+      @data.setDataPosition(rposition[0], rposition[1]);
+
+      @data.setupData () =>
+        callback();
+
+  centerToAbsolutePosition: (centerX, centerY) =>
     ax = -(0.5 + centerX) * @fieldSize * @scale + @viewportWidth;
     ay = -(0.5 + centerY) * @fieldSize * @scale + @viewportHeight;
-    @mapLayer.mapMovedTo(ax, ay)
+    return[ax, ay];
 
-  centerDataPosition: (oldWidth, oldHeight) =>
-    cx = @data.rx + Math.floor(oldWidth / 2)
-    cy = @data.ry + Math.floor(oldHeight / 2)
-    @data.centerPosition(cx, cy, @fieldWidth, @fieldHeight);
+  # centerDataPosition: (oldWidth, oldHeight) =>
+  #   cx = @data.rx + Math.floor(oldWidth / 2)
+  #   cy = @data.ry + Math.floor(oldHeight / 2)
+  #   @data.centerPosition(cx, cy, @fieldWidth, @fieldHeight);
 
   create: () =>
     console.log('create')

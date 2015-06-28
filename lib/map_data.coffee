@@ -7,10 +7,12 @@ class Game.MapData
     Game.main.apiCaller.get '/spec/fixtures/init_map.json', (data) =>
       data = JSON.parse(data);
       console.log("hx #{data.headquarter.x} hy #hy #{data.headquarter.y}")
-      @centerX = data.headquarter.x
-      @centerY = data.headquarter.y
-      @setDataPosition();
-      @setupData(callback);
+      callback(data.headquarter.x, data.headquarter.y);
+
+  # centerPosition: (cx, cy, fieldWidth, fieldHeight) =>
+  #   rx = cx - Math.floor(fieldWidth / 2);
+  #   ry = cy - Math.floor(fieldHeight / 2);
+  #   @setDataPosition(rx, ry);
 
   setDataDimensions: (fieldWidth, fieldHeight) =>
     @dataWidth  = Math.round(fieldWidth / 10);
@@ -24,7 +26,7 @@ class Game.MapData
   setupDataLoaded: () =>
     @dataToLoad -= 1;
     if @dataToLoad == 0
-      @dataLoadedCallback(@centerX, @centerY);
+      @dataLoadedCallback();
 
   currentView: () =>
     return [
@@ -79,9 +81,11 @@ class Game.MapData
       @updateData();
       callback(deltaX, deltaY);
 
-  setDataPosition: () =>
-    @dataX = Math.round(@centerX / 10) * 10; # dataset start x
-    @dataY = Math.round(@centerY / 10) * 10; # dataset start y
+  setDataPosition: (rx, ry) =>
+    @rx = rx;
+    @ry = ry;
+    @dataX = Math.round(@rx / 10) * 10; # dataset start x
+    @dataY = Math.round(@ry / 10) * 10; # dataset start y
 
   eachField: (startX, endX, startY, endY, callback) =>
     for y in [startY...endY]
