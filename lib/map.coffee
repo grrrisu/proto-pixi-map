@@ -32,8 +32,8 @@ class Game.Map
         callback();
 
   centerToAbsolutePosition: (centerX, centerY) =>
-    ax = -(0.5 + centerX) * @fieldSize * @scale + @viewportWidth;
-    ay = -(0.5 + centerY) * @fieldSize * @scale + @viewportHeight;
+    ax = -(0.5 + centerX) * @fieldSize * @scale + @viewportWidth / 2;
+    ay = -(0.5 + centerY) * @fieldSize * @scale + @viewportHeight / 2;
     return[ax, ay];
 
   # centerDataPosition: (oldWidth, oldHeight) =>
