@@ -16,4 +16,4 @@ class Game.ScaleController
 
   zoom: (scale) =>
     @scale = scale;
-    @map.scale(@scale);
+    @map.zoom(@scale);

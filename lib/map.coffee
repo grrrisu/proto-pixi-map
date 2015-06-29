@@ -14,32 +14,37 @@ class Game.Map
     @setDimensions(@fieldSize);
 
   setDimensions: (fieldSize) =>
-    @fieldWidth  = Math.floor(@viewportWidth * @scale / fieldSize) + 2;
-    @fieldHeight = Math.floor(@viewportHeight * @scale / fieldSize) + 2;
+    @fieldWidth  = Math.floor(@viewportWidth / (fieldSize * @scale)) + 2;
+    @fieldHeight = Math.floor(@viewportHeight / (fieldSize * @scale)) + 2;
     @data.setDataDimensions(@fieldWidth, @fieldHeight)
 
   init: (callback) =>
     @data.initMap (centerX, centerY) =>
-      console.log('after data init')
-
-      aposition = @centerToAbsolutePosition(centerX, centerY);
-      console.log(aposition);
-      rposition = @toRelativePosition(aposition[0], aposition[1]);
-      @mapLayer.mapMovedTo(aposition[0], aposition[1]);
-      @data.setDataPosition(rposition[0], rposition[1]);
-
+      @moveToCenter(centerX, centerY);
       @data.setupData () =>
         callback();
+
+  moveToCenter: (centerX, centerY) =>
+    aposition = @centerToAbsolutePosition(centerX, centerY);
+    rposition = @toRelativePosition(aposition[0], aposition[1]);
+    @mapLayer.mapMovedTo(aposition[0], aposition[1]);
+    @data.setDataPosition(rposition[0], rposition[1]);
 
   centerToAbsolutePosition: (centerX, centerY) =>
     ax = -(0.5 + centerX) * @fieldSize * @scale + @viewportWidth / 2;
     ay = -(0.5 + centerY) * @fieldSize * @scale + @viewportHeight / 2;
     return[ax, ay];
 
-  # centerDataPosition: (oldWidth, oldHeight) =>
-  #   cx = @data.rx + Math.floor(oldWidth / 2)
-  #   cy = @data.ry + Math.floor(oldHeight / 2)
-  #   @data.centerPosition(cx, cy, @fieldWidth, @fieldHeight);
+  toCenterPosition: () =>
+    centerX = @data.rx + Math.floor(@fieldWidth / 2);
+    centerY = @data.ry + Math.floor(@fieldHeight / 2);
+    console.log(centerX, centerY);
+    return [centerX, centerY];
+
+  toRelativePosition: (ax, ay) =>
+    rx = Math.floor(-ax / @fieldSize);
+    ry = Math.floor(-ay / @fieldSize);
+    return [rx, ry];
 
   create: () =>
     console.log('create')
@@ -85,20 +90,15 @@ class Game.Map
   center: () =>
     # move to headquarter position or init rx, ry for admin
 
-  scale: (newScale) =>
-    oldWidth = @fieldWidth;
-    oldHeight = @fieldHeight;
+  zoom: (newScale) =>
+    center = @toCenterPosition();
+    @scale = newScale;
     @mapLayer.scale(newScale);
-    @setDimensions(@fieldSize * newScale);
-    @move(@fieldSize * newScale, oldWidth, oldHeight);
+    @setDimensions(@fieldSize);
+    @moveToCenter(center[0], center[1]);
     @create();
 
   clearFields: () =>
     @fields.each (field) =>
       field.clear(@mapLayer);
     @fields = [];
-
-  toRelativePosition: (ax, ay) =>
-    rx = Math.floor(-ax / @fieldSize);
-    ry = Math.floor(-ay / @fieldSize);
-    return [rx, ry];
