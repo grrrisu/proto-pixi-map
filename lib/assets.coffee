@@ -30,7 +30,7 @@ class Game.Assets
 
   load: (callback) =>
     assetsToLoad = Object.values(@assets);
-    loader = new PIXI.AssetLoader(assetsToLoad);
+    loader = new PIXI.loaders.Loader(assetsToLoad);
     loader.onComplete = callback;
     loader.load();
 

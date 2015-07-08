@@ -3,12 +3,13 @@ class Game.Stage
   constructor: (element_id) ->
     @resolution = window.devicePixelRatio;
     @element    = document.getElementById(element_id);
-    @stage      = new PIXI.Stage(0x454545);
+    @stage      = new PIXI.Container();
     @renderer   = PIXI.autoDetectRenderer(
       @element.width,
       @element.height,
       view: @element,
-      resolution: @resolution
+      resolution: @resolution,
+      background: 0x454545
     );
     @map        = new Game.Map @stage,
                     width: @element.width / @resolution
