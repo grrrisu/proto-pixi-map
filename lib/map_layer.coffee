@@ -53,6 +53,9 @@ class Game.MapLayer
     @layer.position.x = ax;
     @layer.position.y = ay;
 
+  getPosition: () =>
+    @layer.position;
+
   scale: (n) =>
     @layer.scale.x = n;
     @layer.scale.y = n;

@@ -9,10 +9,10 @@ class Game.ScaleController
     $('#zoom-out').on('click', @zoomOut);
 
   zoomOut: () =>
-    @zoom(@scale - 0.05);
+    @zoom(@scale - 0.1);
 
   zoomIn: () =>
-    @zoom(@scale + 0.05);
+    @zoom(@scale + 0.1);
 
   zoom: (scale) =>
     @scale = scale;
