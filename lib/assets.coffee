@@ -29,10 +29,11 @@ class Game.Assets
     @pool = new Game.SpritePool(images);
 
   load: (callback) =>
-    assetsToLoad = Object.values(@assets);
-    loader = new PIXI.loaders.Loader(assetsToLoad);
-    loader.onComplete = callback;
-    loader.load();
+    loader = PIXI.loader
+    Object.each @assets, (name, image) =>
+      loader.add(name, image);
+    loader.load (loader, resources) ->
+      callback();
 
   getVegetationSprite: (type) =>
     @getSprite("vegetation_#{type}");
