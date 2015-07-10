@@ -13,20 +13,18 @@ class Game.MapDragHandler
     @layer.mousemove      = @dragMove;
     @layer.touchmove      = @dragMove;
 
-  dragStart: (data) =>
+  dragStart: (event) =>
     @dragging = true
-    position = data.getLocalPosition(@layer.parent); # get position relative to stage
+    position = event.data.getLocalPosition(@layer.parent); # get position relative to stage
     @dragStartX = position.x - @layer.position.x
     @dragStartY = position.y - @layer.position.y
 
-  dragEnd: (data) =>
+  dragEnd: (event) =>
     @dragging = false;
 
-  dragMove: (data) =>
+  dragMove: (event) =>
     if @dragging
-      position = data.getLocalPosition(@layer.parent); # get position relative to stage
+      position = event.data.getLocalPosition(@layer.parent); # get position relative to stage
       x = position.x - @dragStartX;
       y = position.y - @dragStartY;
       @map.mapMovedTo(x, y);
-
-
