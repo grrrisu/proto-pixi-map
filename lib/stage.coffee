@@ -9,9 +9,9 @@ class Game.Stage
       @element.height,
       view: @element,
       resolution: @resolution,
-      antialias: true,
-      background: 0x454545
+      antialias: true
     );
+    @renderer.backgroundColor = 0x454545;
     @map        = new Game.Map @stage,
                     width: @element.width / @resolution
                     height: @element.height / @resolution
