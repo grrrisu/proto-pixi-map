@@ -43,7 +43,7 @@ class Game.Field
     @vegetationSprite.removeChild(sprite);
     @returnSprite(sprite);
 
-
   returnSprite: (sprite) =>
     image = sprite.texture.baseTexture.imageUrl;
-    Game.main.assets.returnSprite(sprite, image);
+    if image?
+      Game.main.assets.returnSprite(sprite, image);
