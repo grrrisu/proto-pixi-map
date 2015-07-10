@@ -19,7 +19,7 @@ class Game.Stage
   update: () =>
     @renderer.render(@stage);
     # called 60 times per sec / 60 FPS (FramePerSeconds)
-    requestAnimFrame(@update);
+    requestAnimationFrame(@update);
 
   create: () =>
     @map.create();

@@ -15,7 +15,7 @@ class Game.Main
     else
       @assetsLoaded = true
       console.log("assets loaded first");
-    requestAnimFrame(@stage.update);
+    requestAnimationFrame(@stage.update);
 
   dataLoaded: () =>
     if @assetsLoaded == true
@@ -26,4 +26,3 @@ class Game.Main
 
   create: () =>
     @stage.create();
-
