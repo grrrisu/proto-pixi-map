@@ -9,11 +9,6 @@ class Game.MapData
       console.log("hx #{data.headquarter.x} hy #hy #{data.headquarter.y}")
       callback(data.headquarter.x, data.headquarter.y);
 
-  # centerPosition: (cx, cy, fieldWidth, fieldHeight) =>
-  #   rx = cx - Math.floor(fieldWidth / 2);
-  #   ry = cy - Math.floor(fieldHeight / 2);
-  #   @setDataPosition(rx, ry);
-
   setDataDimensions: (fieldWidth, fieldHeight) =>
     @dataWidth  = Math.round(fieldWidth / 10);
     @dataHeight = Math.round(fieldHeight / 10);
@@ -52,7 +47,6 @@ class Game.MapData
         py = y + @dataY;
 
         unless @isDataSetLoaded(px, py)
-          console.log("load data #{px} #{py}")
           Game.main.apiCaller.get "/spec/fixtures/map_#{px}_#{py}.json", (data) =>
             @addDataSet(data);
             if callback?

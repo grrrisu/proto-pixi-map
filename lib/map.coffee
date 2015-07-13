@@ -55,7 +55,6 @@ class Game.Map
   toCenterPosition: () =>
     centerX = @data.rx + Math.floor(@fieldWidth / 2);
     centerY = @data.ry + Math.floor(@fieldHeight / 2);
-    console.log(centerX, centerY);
     return [centerX, centerY];
 
   toRelativePosition: (ax, ay) =>
@@ -64,7 +63,6 @@ class Game.Map
     return [rx, ry];
 
   create: () =>
-    console.log('create')
     @createFields(0, @fieldWidth, 0, @fieldHeight);
 
   createFields: (startX, endX, startY, endY) =>
@@ -110,7 +108,6 @@ class Game.Map
 
   zoom: (newScale) =>
     center = @getCenter();
-    console.log("calcalated center #{center}");
     @scale = newScale;
     @mapLayer.scale(newScale);
     @setDimensions();
