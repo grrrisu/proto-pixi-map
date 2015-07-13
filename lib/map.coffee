@@ -78,11 +78,12 @@ class Game.Map
           return true;
 
   createField: (rx, ry, data) =>
+    @mapLayer.setFieldSize(@fieldSize);
     already_created = @fields.any (field) =>
       return field.rx == rx && field.ry == ry;
 
     unless already_created
-      field = @mapLayer.setField(rx, ry, data, @fieldSize);
+      field = @mapLayer.setField(rx, ry, data);
       @fields.unshift(field);
 
   mapMovedTo: (ax, ay) =>

@@ -4,23 +4,21 @@ class Game.MapLayer
     @layer = new PIXI.Container();
     stage.addChild(@layer);
 
-  setOutset: (width, height, fieldSize) =>
+  setFieldSize: (fieldSize) =>
     @fieldSize = fieldSize;
-    @outsetX = (width % fieldSize / 2).round();
-    @outsetY = (height % fieldSize / 2).round();
 
-  setField: (x, y, data, fieldSize) =>
+  setField: (x, y, data) =>
     field = new Game.Field(x, y);
-    vegetationSprite = @setVegetation(x, y, data.vegetation, fieldSize, field);
+    vegetationSprite = @setVegetation(x, y, data.vegetation, field);
     @setFlora(data.flora, vegetationSprite, field) if data.flora?;
     @setFauna(data.fauna, vegetationSprite, field) if data.fauna?;
     @setPawn(data.pawn, vegetationSprite, field) if data.pawn?;
     return field;
 
-  setVegetation: (x, y, vegetation, fieldSize, field) =>
+  setVegetation: (x, y, vegetation, field) =>
     sprite = Game.main.assets.getVegetationSprite(vegetation.type)
-    sprite.position.x = x * (fieldSize);
-    sprite.position.y = y * (fieldSize);
+    sprite.position.x = x * (@fieldSize);
+    sprite.position.y = y * (@fieldSize);
     field.setVegetationSprite(sprite);
     @layer.addChild(sprite);
 
@@ -43,9 +41,8 @@ class Game.MapLayer
     parent.addChild(sprite);
 
   centerSprite: (sprite) =>
-    resolution = sprite.texture.baseTexture.resolution;
-    sprite.position.x = (@fieldSize - sprite.width / resolution) / 2;
-    sprite.position.y = (@fieldSize - sprite.height / resolution) / 2;
+    sprite.position.x = (@fieldSize - sprite.width ) / 2;
+    sprite.position.y = (@fieldSize - sprite.height ) / 2;
 
   mapMovedTo: (ax, ay) =>
     @ax = ax;
