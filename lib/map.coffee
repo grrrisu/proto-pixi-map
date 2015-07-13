@@ -112,6 +112,7 @@ class Game.Map
     @mapLayer.scale(newScale);
     @setDimensions();
     @moveToCenter(center[0], center[1]);
+    @data.updateData();
     @create();
 
   clearFields: () =>
