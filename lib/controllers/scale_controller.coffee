@@ -19,10 +19,10 @@ class Game.ScaleController
     @map.zoom(@scale);
 
   zoomInAnim: () =>
-    @animZoom(0.01, 10);
+    @animZoom(-0.01, 10);
 
   zoomOutAnim: () =>
-    @animZoom(-0.01, 10);
+    @animZoom(0.01, 10);
 
   animZoom: (step, counter) =>
     if counter > 0
