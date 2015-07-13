@@ -128,16 +128,15 @@ describe("MapData", function() {
       mapData.loadData(callback);
       expect(mapData.isDataSetLoaded).toHaveBeenCalled();
       expect(mapData.isDataSetLoaded.calls.count()).toEqual(9);
-
-      expect(mapData.isDataSetLoaded.calls.argsFor(0)).toEqual([30, 50]);
-      expect(mapData.isDataSetLoaded.calls.argsFor(1)).toEqual([30, 60]);
-      expect(mapData.isDataSetLoaded.calls.argsFor(2)).toEqual([30, 40]);
-      expect(mapData.isDataSetLoaded.calls.argsFor(3)).toEqual([40, 50]);
-      expect(mapData.isDataSetLoaded.calls.argsFor(4)).toEqual([40, 60]);
-      expect(mapData.isDataSetLoaded.calls.argsFor(5)).toEqual([40, 40]);
-      expect(mapData.isDataSetLoaded.calls.argsFor(6)).toEqual([20, 50]);
-      expect(mapData.isDataSetLoaded.calls.argsFor(7)).toEqual([20, 60]);
-      expect(mapData.isDataSetLoaded.calls.argsFor(8)).toEqual([20, 40]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(0)).toEqual([20, 40]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(1)).toEqual([20, 50]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(2)).toEqual([20, 60]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(3)).toEqual([30, 40]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(4)).toEqual([30, 50]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(5)).toEqual([30, 60]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(6)).toEqual([40, 40]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(7)).toEqual([40, 50]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(8)).toEqual([40, 60]);
     });
 
   });
@@ -176,16 +175,15 @@ describe("MapData", function() {
       mapData.mapMovedTo(2, 5, callback);
 
       expect(mapData.isDataSetLoaded).toHaveBeenCalled();
-
-      expect(mapData.isDataSetLoaded.calls.argsFor(0)).toEqual([0, 10]);
-      expect(mapData.isDataSetLoaded.calls.argsFor(1)).toEqual([0, 20]);
-      expect(mapData.isDataSetLoaded.calls.argsFor(2)).toEqual([0, 0]);
-      expect(mapData.isDataSetLoaded.calls.argsFor(3)).toEqual([10, 10]);
-      expect(mapData.isDataSetLoaded.calls.argsFor(4)).toEqual([10, 20]);
-      expect(mapData.isDataSetLoaded.calls.argsFor(5)).toEqual([10, 0]);
-      expect(mapData.isDataSetLoaded.calls.argsFor(6)).toEqual([-10, 10]);
-      expect(mapData.isDataSetLoaded.calls.argsFor(7)).toEqual([-10, 20]);
-      expect(mapData.isDataSetLoaded.calls.argsFor(8)).toEqual([-10, 0]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(0)).toEqual([-10, 0]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(1)).toEqual([-10, 10]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(2)).toEqual([-10, 20]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(3)).toEqual([0, 0]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(4)).toEqual([0, 10]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(5)).toEqual([0, 20]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(6)).toEqual([10, 0]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(7)).toEqual([10, 10]);
+      expect(mapData.isDataSetLoaded.calls.argsFor(8)).toEqual([10, 20]);
     });
 
     it("should call parent with delta", function() {
