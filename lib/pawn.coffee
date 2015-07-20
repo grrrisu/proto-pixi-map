@@ -1,7 +1,6 @@
 class Game.Pawn
 
   constructor: (data) ->
-    console.log(data);
     @id = data.id;
     @x  = data.x;
     @y  = data.y;
@@ -34,7 +33,8 @@ class Game.Pawn
 
   onDragStart: (event) =>
     Game.main.stage.map.drag_handler.setDragable(false);
-    @sprite.alpha = 0.5;
+    @sprite.alpha = 0.7;
+    @sprite.scale.set(1.5);
     @dragging = true;
 
   onDragMove: (event) =>
@@ -46,4 +46,15 @@ class Game.Pawn
   onDragEnd: (event) =>
     Game.main.stage.map.drag_handler.setDragable(true);
     @sprite.alpha = 1.0;
+    @sprite.scale.set(1);
     @dragging = false;
+    newPosition = @snapToGrid(@sprite.position.x, @sprite.position.y);
+    @sprite.position.set(newPosition[0], newPosition[1]);
+
+  snapToGrid: (ax, ay) =>
+    fieldSize = Game.main.stage.map.fieldSize;
+    rx = Math.round((ax - (0.5 * fieldSize)) / fieldSize);
+    ry = Math.round((ay - (0.5 * fieldSize)) / fieldSize);
+    ax = (rx + 0.5) * fieldSize;
+    ay = (ry + 0.5) * fieldSize;
+    return [ax, ay];

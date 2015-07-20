@@ -1,7 +1,12 @@
 class Game.MapLayer
 
   constructor: (stage) ->
+    @vegetation_layer = new PIXI.Container();
+    @pawn_layer = new PIXI.Container();
     @layer = new PIXI.Container();
+
+    @layer.addChild(@vegetation_layer);
+    @layer.addChild(@pawn_layer);
     stage.addChild(@layer);
 
   setFieldSize: (fieldSize) =>
@@ -12,7 +17,7 @@ class Game.MapLayer
     vegetationSprite = @setVegetation(x, y, data.vegetation, field);
     @setFlora(data.flora, vegetationSprite, field) if data.flora?;
     @setFauna(data.fauna, vegetationSprite, field) if data.fauna?;
-    @setPawn(data.pawn, vegetationSprite, field) if data.pawn?;
+    @setPawn(data.pawn, x, y, @pawn_layer, field) if data.pawn?;
     return field;
 
   setVegetation: (x, y, vegetation, field) =>
@@ -20,7 +25,7 @@ class Game.MapLayer
     sprite.position.x = x * (@fieldSize);
     sprite.position.y = y * (@fieldSize);
     field.setVegetationSprite(sprite);
-    @layer.addChild(sprite);
+    @vegetation_layer.addChild(sprite);
 
   setFlora: (data, parent, field) =>
     sprite = Game.main.assets.getFloraSprite(data.type);
@@ -34,10 +39,11 @@ class Game.MapLayer
     @centerSprite(sprite);
     parent.addChild(sprite);
 
-  setPawn: (data, parent, field) =>
+  setPawn: (data, x, y, parent, field) =>
     sprite = Game.main.assets.getPawnSprite(data.type, data.id);
     field.setPawnSprite(sprite);
-    @centerSprite(sprite);
+    sprite.position.x = (x + 0.5) * @fieldSize;
+    sprite.position.y = (y + 0.5) * @fieldSize;
     parent.addChild(sprite);
 
   centerSprite: (sprite) =>
