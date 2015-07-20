@@ -3,8 +3,8 @@ class Game.MapDragHandler
   constructor: (layer, map) ->
     @layer = layer;
     @map = map;
-    @layer.interactive = true; # let's receive events
     @dragging = false;
+    @setDragable(true);
     @layer.mousedown      = @dragStart;
     @layer.touchstart     = @dragStart;
     @layer.mouseup        = @dragEnd;
@@ -28,3 +28,6 @@ class Game.MapDragHandler
       x = position.x - @dragStartX;
       y = position.y - @dragStartY;
       @map.mapMovedTo(x, y);
+
+  setDragable: (value) =>
+    @layer.interactive = value; # let's receive events

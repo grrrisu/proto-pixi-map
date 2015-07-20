@@ -17,7 +17,8 @@ class Game.Main
       console.log("assets loaded first");
     requestAnimationFrame(@stage.update);
 
-  dataLoaded: () =>
+  dataLoaded: (initData) =>
+    @initData = initData;
     if @assetsLoaded == true
       @create();
     else
@@ -25,4 +26,5 @@ class Game.Main
       console.log("data loaded first");
 
   create: () =>
+    @headquarter = new Game.Headquarter(@initData);
     @stage.create();

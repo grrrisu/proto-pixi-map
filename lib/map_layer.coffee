@@ -35,7 +35,7 @@ class Game.MapLayer
     parent.addChild(sprite);
 
   setPawn: (data, parent, field) =>
-    sprite = Game.main.assets.getPawnSprite(data);
+    sprite = Game.main.assets.getPawnSprite(data.type, data.id);
     field.setPawnSprite(sprite);
     @centerSprite(sprite);
     parent.addChild(sprite);

@@ -6,8 +6,8 @@ class Game.MapData
   initMap: (callback) =>
     Game.main.apiCaller.get '/spec/fixtures/init_map.json', (data) =>
       data = JSON.parse(data);
-      console.log("hx #{data.headquarter.x} hy #hy #{data.headquarter.y}")
-      callback(data.headquarter.x, data.headquarter.y);
+      console.log("hx #{data.headquarter.x} hy #{data.headquarter.y}")
+      callback(data);
 
   setDataDimensions: (fieldWidth, fieldHeight) =>
     @dataWidth  = Math.round(fieldWidth / 10);

@@ -19,11 +19,11 @@ class Game.Map
     @data.setDataDimensions(@fieldWidth, @fieldHeight)
 
   init: (callback) =>
-    @data.initMap (centerX, centerY) =>
-      @setCenter(centerX, centerY);
-      @moveToCenter(centerX, centerY);
+    @data.initMap (initData) =>
+      @setCenter(initData.headquarter.x, initData.headquarter.y);
+      @moveToCenter(initData.headquarter.x, initData.headquarter.y);
       @data.setupData () =>
-        callback();
+        callback(initData);
 
   setCenter: (centerX, centerY) =>
     @centerX = centerX;

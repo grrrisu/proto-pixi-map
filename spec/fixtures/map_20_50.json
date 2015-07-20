@@ -582,7 +582,10 @@
           "type": 13,
           "size": 650
         },
-        "pawn": "pawn"
+        "pawn": {
+          "type": "base",
+          "id": "124"
+        }
       },
       {
         "x": 35,

@@ -23,10 +23,11 @@ class Game.Assets
       "leopard": "/images/leopard@2x.png",
 
       "headquarter": "/images/Raratonga_Mask.gif",
-      "pawn": "/images/caveman.png"
+      "base": "/images/caveman.png"
     }
     images = Object.values(@assets);
     @pool = new Game.SpritePool(images);
+    @pawns = new Game.PawnPool();
 
   load: (callback) =>
     loader = PIXI.loader
@@ -44,7 +45,11 @@ class Game.Assets
   getFaunaSprite: (type) =>
     @getSprite(type);
 
-  getPawnSprite: (type) =>
+  getPawnSprite: (type, id) =>
+    if id?
+      pawn = @pawns.getPawn(id)
+      return pawn if pawn?
+
     @getSprite(type);
 
   returnSprite: (image, sprite) =>

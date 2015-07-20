@@ -501,7 +501,10 @@
           "type": 1,
           "size": 250
         },
-        "pawn": "headquarter"
+        "pawn": {
+          "type": "headquarter",
+          "id": "123"
+        }
       },
       {
         "x": 26,
@@ -510,7 +513,10 @@
           "type": 5,
           "size": 250
         },
-        "pawn": "pawn"
+        "pawn": {
+          "type": "base",
+          "id": "125"
+        }
       },
       {
         "x": 27,
