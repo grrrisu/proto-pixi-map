@@ -3,7 +3,7 @@ A prototype of a map using pixi.js
 Pixi
 ----
 
-Version 2.2.9
+Version 3.0.7
 
 Preparation
 -----------
@@ -38,4 +38,3 @@ Tests
 -----
 
 open ```spec/SpecRunner.html```
-

@@ -13,6 +13,9 @@ class Game.Map
     @scale          = 1.0;
     @setDimensions();
 
+    @blur_filter = new PIXI.filters.BlurFilter();
+    @blur_filter.blur = 10;
+
   setDimensions: () =>
     @fieldWidth  = Math.floor(@viewportWidth / (@fieldSize * @scale)) + 2;
     @fieldHeight = Math.floor(@viewportHeight / (@fieldSize * @scale)) + 2;
@@ -106,6 +109,17 @@ class Game.Map
 
   center: () =>
     # move to headquarter position or init rx, ry for admin
+
+  lowlight_around: (rx, ry, view_radius) =>
+    @fields.each (field) =>
+        c = Math.pow(view_radius, 2);
+        ab = Math.pow(field.rx - rx, 2) + Math.pow(field.ry - ry, 2);
+        if c < ab
+          field.lowlight();
+
+  reset_lowlight: () =>
+    @fields.each (field) =>
+      field.default_light();
 
   zoom: (newScale) =>
     center = @getCenter();

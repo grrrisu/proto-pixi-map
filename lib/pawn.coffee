@@ -5,6 +5,7 @@ class Game.Pawn
     @x  = data.x;
     @y  = data.y;
     @type = data.type;
+    @view_radius = data.view_radius;
     @sprite = @initSprite();
 
 
@@ -32,24 +33,34 @@ class Game.Pawn
 
 
   onDragStart: (event) =>
+    @dragging = true;
+    @startPosition = {x: @sprite.position.x, y: @sprite.position.y};
     Game.main.stage.map.drag_handler.setDragable(false);
+    Game.main.stage.map.lowlight_around(@x, @y, @view_radius);
     @sprite.alpha = 0.7;
     @sprite.scale.set(1.5);
-    @dragging = true;
 
   onDragMove: (event) =>
     if @dragging
       newPosition = event.data.getLocalPosition(@sprite.parent);
-      @sprite.position.x = newPosition.x;
-      @sprite.position.y = newPosition.y;
+      if @withinViewRadius(newPosition)
+        @sprite.position.x = newPosition.x;
+        @sprite.position.y = newPosition.y;
 
   onDragEnd: (event) =>
     Game.main.stage.map.drag_handler.setDragable(true);
+    Game.main.stage.map.reset_lowlight();
     @sprite.alpha = 1.0;
     @sprite.scale.set(1);
     @dragging = false;
     newPosition = @snapToGrid(@sprite.position.x, @sprite.position.y);
-    @sprite.position.set(newPosition[0], newPosition[1]);
+    @sprite.position.set(newPosition.x, newPosition.y);
+
+  withinViewRadius: (position) =>
+    fieldSize = Game.main.stage.map.fieldSize;
+    c = Math.pow(fieldSize * @view_radius, 2)
+    ab = Math.pow(@startPosition.x - position.x, 2) + Math.pow(@startPosition.y - position.y, 2)
+    c >= ab
 
   snapToGrid: (ax, ay) =>
     fieldSize = Game.main.stage.map.fieldSize;
@@ -57,4 +68,4 @@ class Game.Pawn
     ry = Math.round((ay - (0.5 * fieldSize)) / fieldSize);
     ax = (rx + 0.5) * fieldSize;
     ay = (ry + 0.5) * fieldSize;
-    return [ax, ay];
+    return {x: ax, y: ay};

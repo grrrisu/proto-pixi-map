@@ -5,18 +5,21 @@
     "x": 30,
     "y": 55,
     "type": "headquarter",
+    "view_radius": 2,
     "pawns": [
       {
         "id":  "124",
         "type": "base",
         "x": 29,
-        "y": 55
+        "y": 55,
+        "view_radius": 1
       },
       {
         "id":  "125",
         "type": "base",
         "x": 31,
-        "y": 55
+        "y": 55,
+        "view_radius": 1
       }
     ]
   }
