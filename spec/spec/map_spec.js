@@ -17,6 +17,18 @@ describe("Map", function() {
       expect(position).toEqual([0, 1]);
     });
 
+    it("should restrict position(5,0) to radius 3", function(){
+      restrictedPosition = map.restrictToRadius(5, 0, 3, 1);
+      expect(restrictedPosition.dx).toEqual(3);
+      expect(restrictedPosition.dy).toEqual(0);
+    });
+
+    it("should restrict position(5,5) to radius 3", function(){
+      restrictedPosition = map.restrictToRadius(5, 5, 2, 1);
+      expect(restrictedPosition.dx).toEqual(2);
+      expect(restrictedPosition.dy).toEqual(2);
+    });
+
   });
 
 });

@@ -14,7 +14,7 @@ class Game.Map
     @setDimensions();
 
     @blur_filter = new PIXI.filters.BlurFilter();
-    @blur_filter.blur = 10;
+    @blur_filter.blur = 15;
 
   setDimensions: () =>
     @fieldWidth  = Math.floor(@viewportWidth / (@fieldSize * @scale)) + 2;
@@ -110,12 +110,25 @@ class Game.Map
   center: () =>
     # move to headquarter position or init rx, ry for admin
 
+
+  withinRadius: (dx, dy, radius, border) =>
+    border = 1 unless border?
+    return false if dx > radius || dy > radius
+    Math.pow(dx,2) + Math.pow(dy,2) <= Math.pow(radius, 2) + border;
+
+  restrictToRadius: (dx, dy, radius, border) =>
+    border = 1 unless border?
+    return @restrictToRadius(radius, dy, radius, border) if dx > radius;
+    return @restrictToRadius(dx, radius, radius, border) if dy > radius;
+    if Math.pow(dx,2) + Math.pow(dy,2) <= Math.pow(radius, 2) + border
+      return {dx: dx, dy: dy}
+    else
+      return @restrictToRadius(dx - 1, dy - 1, radius, border);
+
   lowlight_around: (rx, ry, view_radius) =>
     @fields.each (field) =>
-        c = Math.pow(view_radius, 2);
-        ab = Math.pow(field.rx - rx, 2) + Math.pow(field.ry - ry, 2);
-        if c < ab
-          field.lowlight();
+      unless @withinRadius(field.rx - rx, field.ry - ry, view_radius, 1)
+        field.lowlight();
 
   reset_lowlight: () =>
     @fields.each (field) =>
