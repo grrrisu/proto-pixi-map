@@ -1,7 +1,7 @@
 class Game.Map
 
   constructor: (stage, options) ->
-    @mapLayer         = new Game.MapLayer(stage);
+    @mapLayer         = new Game.MapLayer(stage, this);
     @drag_handler     = new Game.MapDragHandler(@mapLayer.layer, this);
     @scaleController  = new Game.ScaleController(this);
     @data             = new Game.MapData();
@@ -48,7 +48,7 @@ class Game.Map
     aposition = @centerToAbsolutePosition(centerX, centerY);
     rposition = @toRelativePosition(aposition[0], aposition[1]);
     @mapLayer.mapMovedTo(aposition[0], aposition[1]);
-    @data.setDataPosition(rposition[0], rposition[1]);
+    @data.setDataPosition(rposition.rx, rposition.ry);
 
   centerToAbsolutePosition: (centerX, centerY) =>
     ax = -(0.5 + centerX) * (@fieldSize * @scale) + @viewportWidth / 2;
@@ -63,7 +63,7 @@ class Game.Map
   toRelativePosition: (ax, ay) =>
     rx = Math.floor(-ax / (@fieldSize * @scale));
     ry = Math.floor(-ay / (@fieldSize * @scale));
-    return [rx, ry];
+    return {rx: rx, ry: ry};
 
   create: () =>
     @createFields(0, @fieldWidth, 0, @fieldHeight);
@@ -80,6 +80,10 @@ class Game.Map
           field.clear(@mapLayer);
           return true;
 
+  getFieldAt: (rx, ry) =>
+    @fields.find (field) ->
+      return field.rx == rx && field.ry == ry
+
   createField: (rx, ry, data) =>
     @mapLayer.setFieldSize(@fieldSize);
     already_created = @fields.any (field) =>
@@ -91,8 +95,8 @@ class Game.Map
 
   mapMovedTo: (ax, ay) =>
     @mapLayer.mapMovedTo(ax, ay);
-    position = @toRelativePosition(ax, ay);
-    @data.mapMovedTo position[0], position[1], (deltaX, deltaY) =>
+    rposition = @toRelativePosition(ax, ay);
+    @data.mapMovedTo rposition.rx, rposition.ry, (deltaX, deltaY) =>
       @clearCenter();
       if deltaX > 0 # move to the right
         @createFields(@fieldWidth - deltaX, @fieldWidth, 0, @fieldHeight);

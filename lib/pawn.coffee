@@ -15,7 +15,6 @@ class Game.Pawn
     @sprite.buttonMode = true;
     @sprite.anchor.set(0.5);
 
-    # setup events
     @sprite
       # events for drag start
       .on('mousedown', @onDragStart)

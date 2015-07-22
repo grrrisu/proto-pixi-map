@@ -1,13 +1,19 @@
 class Game.MapLayer
 
-  constructor: (stage) ->
+  constructor: (stage, map) ->
     @vegetation_layer = new PIXI.Container();
     @pawn_layer = new PIXI.Container();
+    @graphics = new PIXI.Graphics();
     @layer = new PIXI.Container();
 
     @layer.addChild(@vegetation_layer);
     @layer.addChild(@pawn_layer);
+    @layer.addChild(@graphics);
+
     stage.addChild(@layer);
+
+    @vegetation_click_handler = new Game.FieldClickHandler(@vegetation_layer, map);
+    @pawn_click_handler = new Game.FieldClickHandler(@pawn_layer, map);
 
   setFieldSize: (fieldSize) =>
     @fieldSize = fieldSize;
