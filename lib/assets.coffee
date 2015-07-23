@@ -52,8 +52,11 @@ class Game.Assets
 
     @getSprite(type);
 
-  returnSprite: (image, sprite) =>
-    @pool.returnSprite(image, sprite);
+  returnSprite: (sprite) =>
+    if sprite.interactive == false
+      image = sprite.texture.baseTexture.imageUrl;
+      if image?
+        @pool.returnSprite(image, sprite);
 
   # private
 

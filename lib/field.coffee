@@ -60,7 +60,4 @@ class Game.Field
     @returnSprite(sprite);
 
   returnSprite: (sprite) =>
-    if sprite.interactive == false
-      image = sprite.texture.baseTexture.imageUrl;
-      if image?
-        Game.main.assets.returnSprite(sprite, image);
+    Game.main.assets.returnSprite(sprite);
