@@ -53,13 +53,6 @@ class Game.Field
     @faunaSprite.tint = 0xFFFFFF if @faunaSprite?;
     @pawnSprite.tint = 0xFFFFFF if @pawnSprite?;
 
-  drawBorder: () =>
-    fieldSize = Game.main.stage.map.fieldSize;
-    graphics  = Game.main.stage.map.mapLayer.graphics;
-    graphics.lineStyle(1, 0xAAAAAA, 1);
-    graphics.drawRect(@rx * fieldSize - 1, @ry * fieldSize - 1, fieldSize, fieldSize);
-    graphics.endFill();
-
   # private
 
   remove_from_parent: (sprite) =>

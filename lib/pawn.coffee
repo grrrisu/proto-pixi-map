@@ -30,7 +30,6 @@ class Game.Pawn
 
     Game.main.assets.pawns.setPawn(@id, @sprite);
 
-
   onDragStart: (event) =>
     @dragging = true;
     @startPosition = {x: @sprite.position.x, y: @sprite.position.y};
@@ -58,6 +57,7 @@ class Game.Pawn
   onDragEnd: (event) =>
     Game.main.stage.map.drag_handler.setDragable(true);
     Game.main.stage.map.reset_lowlight();
+    Game.main.stage.map.mapLayer.fieldClickHandler.hideBorder();
     @sprite.alpha = 1.0;
     @sprite.scale.set(1);
     @dragging = false;

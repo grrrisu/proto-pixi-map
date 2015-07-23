@@ -3,20 +3,24 @@ class Game.MapLayer
   constructor: (stage, map) ->
     @vegetation_layer = new PIXI.Container();
     @pawn_layer = new PIXI.Container();
-    @graphics = new PIXI.Graphics();
+    @click_layer = new PIXI.Container();
     @layer = new PIXI.Container();
 
+    @fieldClickHandler = new Game.FieldClickHandler(@click_layer, [@vegetation_layer, @pawn_layer], map);
+
     @layer.addChild(@vegetation_layer);
+    @layer.addChild(@click_layer);
     @layer.addChild(@pawn_layer);
-    @layer.addChild(@graphics);
 
     stage.addChild(@layer);
 
-    @vegetation_click_handler = new Game.FieldClickHandler(@vegetation_layer, map);
-    @pawn_click_handler = new Game.FieldClickHandler(@pawn_layer, map);
+  init: () =>
+    border = @fieldClickHandler.drawBorder();
+    @click_layer.addChild(border);
 
   setFieldSize: (fieldSize) =>
     @fieldSize = fieldSize;
+
 
   setField: (x, y, data) =>
     field = new Game.Field(x, y);
@@ -30,8 +34,9 @@ class Game.MapLayer
     sprite = Game.main.assets.getVegetationSprite(vegetation.type)
     sprite.position.x = x * (@fieldSize);
     sprite.position.y = y * (@fieldSize);
-    field.setVegetationSprite(sprite);
     @vegetation_layer.addChild(sprite);
+    field.setVegetationSprite(sprite);
+    return sprite;
 
   setFlora: (data, parent, field) =>
     sprite = Game.main.assets.getFloraSprite(data.type);

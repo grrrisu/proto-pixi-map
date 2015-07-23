@@ -22,6 +22,7 @@ class Game.Map
     @data.setDataDimensions(@fieldWidth, @fieldHeight)
 
   init: (callback) =>
+    @mapLayer.init();
     @data.initMap (initData) =>
       @setCenter(initData.headquarter.x, initData.headquarter.y);
       @moveToCenter(initData.headquarter.x, initData.headquarter.y);
