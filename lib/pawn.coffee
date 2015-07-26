@@ -1,11 +1,12 @@
 class Game.Pawn
 
-  constructor: (data) ->
+  constructor: (data, map) ->
     @id = data.id;
     @x  = data.x;
     @y  = data.y;
     @type = data.type;
     @view_radius = data.view_radius;
+    @map = map;
     @sprite = @initSprite();
 
 
@@ -33,18 +34,18 @@ class Game.Pawn
   onDragStart: (event) =>
     @dragging = true;
     @startPosition = {x: @sprite.position.x, y: @sprite.position.y};
-    Game.main.stage.map.drag_handler.setDragable(false);
-    Game.main.stage.map.lowlight_around(@x, @y, @view_radius);
+    @map.drag_handler.setDragable(false);
+    @map.lowlight_around(@x, @y, @view_radius);
     @sprite.alpha = 0.7;
     @sprite.scale.set(1.5);
 
   onDragMove: (event) =>
     if @dragging
       newPosition = event.data.getLocalPosition(@sprite.parent);
-      fieldSize = Game.main.stage.map.fieldSize;
+      fieldSize = @map.fieldSize;
       dx = Math.abs(@startPosition.x - newPosition.x)
       dy = Math.abs(@startPosition.y - newPosition.y)
-      restrictedPosition = Game.main.stage.map.restrictToRadius(dx, dy, @view_radius * fieldSize, fieldSize)
+      restrictedPosition = @map.restrictToRadius(dx, dy, @view_radius * fieldSize, fieldSize)
       if newPosition.x >= @startPosition.x
         @sprite.position.x = @startPosition.x + restrictedPosition.dx;
       else
@@ -55,9 +56,9 @@ class Game.Pawn
         @sprite.position.y = @startPosition.y - restrictedPosition.dy;
 
   onDragEnd: (event) =>
-    Game.main.stage.map.drag_handler.setDragable(true);
-    Game.main.stage.map.reset_lowlight();
-    Game.main.stage.map.mapLayer.fieldClickHandler.hideBorder();
+    @map.drag_handler.setDragable(true);
+    @map.reset_lowlight();
+    @map.mapLayer.fieldClickHandler.hideBorder();
     @sprite.alpha = 1.0;
     @sprite.scale.set(1);
     @dragging = false;
@@ -67,7 +68,7 @@ class Game.Pawn
     @y = newPosition.ry;
 
   snapToGrid: (ax, ay) =>
-    fieldSize = Game.main.stage.map.fieldSize;
+    fieldSize = @map.fieldSize;
     rx = Math.round((ax - (0.5 * fieldSize)) / fieldSize);
     ry = Math.round((ay - (0.5 * fieldSize)) / fieldSize);
     ax = (rx + 0.5) * fieldSize;

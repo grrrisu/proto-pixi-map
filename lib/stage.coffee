@@ -12,10 +12,10 @@ class Game.Stage
       antialias: true
     );
     @renderer.backgroundColor = 0x454545;
-    @map        = new Game.Map @stage,
-                    width: @element.width / @resolution
-                    height: @element.height / @resolution
-                    fieldSize: 55
+    @map = new Game.Map @stage,
+            width: @element.width / @resolution
+            height: @element.height / @resolution
+            fieldSize: 55
 
   update: () =>
     @renderer.render(@stage);

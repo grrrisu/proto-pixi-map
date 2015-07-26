@@ -26,5 +26,5 @@ class Game.Main
       console.log("data loaded first");
 
   create: () =>
-    @headquarter = new Game.Headquarter(@initData);
+    @headquarter = new Game.Headquarter(@initData, @stage.map);
     @stage.create();

@@ -19,16 +19,14 @@ class Game.FieldClickHandler
     @prevField = field
 
   toRelativePosition: (ax, ay) =>
-    fieldSize = Game.main.stage.map.fieldSize;
-    rx = Math.floor(ax / fieldSize);
-    ry = Math.floor(ay / fieldSize);
+    rx = Math.floor(ax / @map.fieldSize);
+    ry = Math.floor(ay / @map.fieldSize);
     return {rx: rx, ry: ry};
 
   drawBorder: () =>
     @graphics = new PIXI.Graphics();
-    fieldSize = @map.fieldSize;
     @graphics.lineStyle(1, 0xAAAAAA, 1);
-    @graphics.drawRect(0, 0, fieldSize, fieldSize);
+    @graphics.drawRect(0, 0, @map.fieldSize, @map.fieldSize);
     @graphics.endFill();
     @hideBorder();
     return @graphics;

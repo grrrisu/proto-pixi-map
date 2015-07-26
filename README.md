@@ -27,10 +27,6 @@ ruby -r webrick -e "s = WEBrick::HTTPServer.new(:Port => 8000, :DocumentRoot => 
 Todo
 ----
 
-* scale
-* border
-* move own pawn
-* highlight
 * update single field(s)
 * integrate dawning
 

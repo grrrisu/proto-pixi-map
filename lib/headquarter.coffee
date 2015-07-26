@@ -1,7 +1,7 @@
 class Game.Headquarter extends Game.Pawn
 
-  constructor: (data) ->
-    super(data.headquarter);
+  constructor: (data, map) ->
+    super(data.headquarter, map);
     @pawns = @createPawns(data.headquarter.pawns);
 
   createPawns: (data) =>
